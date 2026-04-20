@@ -15,3 +15,4 @@ dist/
 # skills/, _superml/reference/, and _superml/config.yml structure are committed
 _superml/config.yml
 _superml/persona.yml
+_superml/meetings/
