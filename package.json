@@ -1,0 +1,37 @@
+{
+  "name": "@supermldev/agentic-sdlc",
+  "version": "1.0.0",
+  "description": "Agentic SDLC — AI-Driven Development Framework built by Superml.dev & superml.org by crazyaiml. Works natively with GitHub Copilot, Claude, Cursor, and any AI coding assistant.",
+  "keywords": [
+    "ai",
+    "agile",
+    "sdlc",
+    "copilot",
+    "claude",
+    "cursor",
+    "developer-experience",
+    "framework",
+    "cobol",
+    "modernization",
+    "requirements",
+    "architecture"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "bin": {
+    "agentic-sdlc": "bin/superml.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "skills/",
+    "config/",
+    "module.yaml",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node bin/superml.js --help"
+  }
+}

@@ -1,0 +1,11 @@
+# Exclude version control and dev files from npm package
+.git/
+.gitignore
+.DS_Store
+*.log
+
+# Exclude _superml working directory (user's project data)
+_superml/
+_superml-output/
+
+# Keep skills/, config/, bin/, lib/ included (they are the package)

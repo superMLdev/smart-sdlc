@@ -1,0 +1,338 @@
+code: superml
+name: "SuperML AI — Agile AI-Driven Development"
+description: "Standalone AI-driven agile development framework with external system integrations. Works inside GitHub Copilot, Claude, or any AI assistant."
+version: "1.0.0"
+
+skills:
+
+  # ─── Phase 0: Relearn (Brownfield Onboarding) ────────────────────────────
+  - name: agent-scout
+    path: skills/0-relearn/agent-scout
+    type: agent
+    phase: relearn
+    description: "Scout — Code Archaeologist. Reads existing codebases and produces living documentation. Use when onboarding to an unfamiliar project or when docs are missing/outdated."
+
+  - name: relearn-codebase
+    path: skills/0-relearn/relearn-codebase
+    type: workflow
+    phase: relearn
+    description: "Full 5-step brownfield reverse-engineering workflow. Scans structure, maps architecture, extracts data/API models, identifies conventions, and produces a complete documentation suite."
+
+  - name: generate-readme
+    path: skills/0-relearn/generate-readme
+    type: workflow
+    phase: relearn
+    description: "Generate or update README.md from the actual codebase — setup, env vars, scripts, project structure."
+
+  - name: generate-api-docs
+    path: skills/0-relearn/generate-api-docs
+    type: workflow
+    phase: relearn
+    description: "Generate API reference documentation (markdown or OpenAPI YAML) from route files, controllers, and schema definitions."
+
+  - name: reverse-adr
+    path: skills/0-relearn/reverse-adr
+    type: workflow
+    phase: relearn
+    description: "Reverse-engineer Architecture Decision Records from code evidence — document WHY things are the way they are."
+
+  # ─── Phase 1: Analysis ────────────────────────────────────────────────────
+  - name: agent-analyst
+    path: skills/1-analysis/agent-analyst
+    type: agent
+    phase: analysis
+    description: "Aria — Business Analyst. Requirements elicitation, codebase analysis, competitive research."
+
+  - name: document-project
+    path: skills/1-analysis/document-project
+    type: workflow
+    phase: analysis
+    description: "Analyze an existing codebase and produce structured documentation for human and AI consumption."
+
+  - name: product-brief
+    path: skills/1-analysis/product-brief
+    type: workflow
+    phase: analysis
+    description: "Create or refine a product brief through guided discovery."
+
+  - name: market-research
+    path: skills/1-analysis/market-research
+    type: workflow
+    phase: analysis
+    description: "Structured market analysis, competitive landscape, and customer needs research."
+
+  - name: technical-research
+    path: skills/1-analysis/technical-research
+    type: workflow
+    phase: analysis
+    description: "Technical feasibility study, architecture options, and implementation approach research."
+
+  # ─── Phase 2: Planning ────────────────────────────────────────────────────
+  - name: agent-pm
+    path: skills/2-planning/agent-pm
+    type: agent
+    phase: planning
+    description: "Leo — Product Manager. PRD creation, requirements discovery, stakeholder alignment."
+
+  - name: create-prd
+    path: skills/2-planning/create-prd
+    type: workflow
+    phase: planning
+    description: "Create a Product Requirements Document from scratch via guided elicitation."
+
+  - name: edit-prd
+    path: skills/2-planning/edit-prd
+    type: workflow
+    phase: planning
+    description: "Edit and refine an existing PRD section by section."
+
+  - name: validate-prd
+    path: skills/2-planning/validate-prd
+    type: workflow
+    phase: planning
+    description: "Validate a PRD for completeness, consistency, and implementation readiness."
+
+  # ─── Phase 3: Solutioning ─────────────────────────────────────────────────
+  - name: agent-architect
+    path: skills/3-solutioning/agent-architect
+    type: agent
+    phase: solutioning
+    description: "Rex — System Architect. Technical architecture, system design, technology decisions."
+
+  - name: create-architecture
+    path: skills/3-solutioning/create-architecture
+    type: workflow
+    phase: solutioning
+    description: "Create a comprehensive architecture document from PRD and requirements."
+
+  - name: create-epics-stories
+    path: skills/3-solutioning/create-epics-stories
+    type: workflow
+    phase: solutioning
+    description: "Break PRD and architecture into epics and detailed user stories with acceptance criteria."
+
+  - name: generate-context
+    path: skills/3-solutioning/generate-context
+    type: workflow
+    phase: solutioning
+    description: "Generate a project-context.md file optimized for AI context loading."
+
+  - name: check-readiness
+    path: skills/3-solutioning/check-readiness
+    type: workflow
+    phase: solutioning
+    description: "Gate check — verify all artifacts are present and implementation-ready before development starts."
+
+  # ─── Phase 4: Implementation ──────────────────────────────────────────────
+  - name: agent-developer
+    path: skills/4-implementation/agent-developer
+    type: agent
+    phase: implementation
+    description: "Nova — Senior Software Engineer. Story execution, TDD, code quality."
+
+  - name: dev-story
+    path: skills/4-implementation/dev-story
+    type: workflow
+    phase: implementation
+    description: "Implement a story using test-first discipline. Red → Green → Refactor loop."
+
+  - name: code-review
+    path: skills/4-implementation/code-review
+    type: workflow
+    phase: implementation
+    description: "Structured code review against story acceptance criteria and quality standards."
+
+  - name: create-story
+    path: skills/4-implementation/create-story
+    type: workflow
+    phase: implementation
+    description: "Create a single detailed story with full acceptance criteria."
+
+  - name: sprint-planning
+    path: skills/4-implementation/sprint-planning
+    type: workflow
+    phase: implementation
+    description: "Plan a sprint — select stories, estimate effort, assign, and set goals."
+
+  - name: sprint-status
+    path: skills/4-implementation/sprint-status
+    type: workflow
+    phase: implementation
+    description: "Generate a sprint status report from current story states."
+
+  - name: retrospective
+    path: skills/4-implementation/retrospective
+    type: workflow
+    phase: implementation
+    description: "Facilitate a sprint retrospective — what went well, what to improve, action items."
+
+  # ─── Core Skills ──────────────────────────────────────────────────────────
+  - name: help
+    path: skills/core/help
+    type: utility
+    phase: core
+    description: "Context-aware help. Explains what to do next based on current project state."
+
+  - name: brainstorming
+    path: skills/core/brainstorming
+    type: utility
+    phase: core
+    description: "Facilitated brainstorming using diverge/converge techniques."
+
+  - name: elicitation
+    path: skills/core/elicitation
+    type: utility
+    phase: core
+    description: "Advanced requirements elicitation — assumption surfacing, five-whys, stakeholder mapping."
+
+  - name: review-adversarial
+    path: skills/core/review-adversarial
+    type: utility
+    phase: core
+    description: "Devil's advocate review — challenge assumptions, find failure modes."
+
+  # ─── Integrations ─────────────────────────────────────────────────────────
+
+  ## JIRA
+  - name: jira-connect
+    path: skills/integrations/jira/connect
+    type: integration
+    phase: integration
+    description: "Set up and verify JIRA connectivity. Store credentials in project config."
+
+  - name: jira-create-epic
+    path: skills/integrations/jira/create-epic
+    type: integration
+    phase: integration
+    description: "Create an epic in JIRA from an epics-and-stories artifact."
+
+  - name: jira-create-story
+    path: skills/integrations/jira/create-story
+    type: integration
+    phase: integration
+    description: "Create a JIRA story ticket from a SuperML story file."
+
+  - name: jira-sync
+    path: skills/integrations/jira/sync
+    type: integration
+    phase: integration
+    description: "Sync all epics and stories from planning artifacts to JIRA."
+
+  - name: jira-conflict-detect
+    path: skills/integrations/jira/conflict-detect
+    type: integration
+    phase: integration
+    description: "Detect multi-member conflicts — check JIRA story status before branch creation."
+
+  ## Confluence
+  - name: confluence-connect
+    path: skills/integrations/confluence/connect
+    type: integration
+    phase: integration
+    description: "Set up and verify Confluence connectivity."
+
+  - name: confluence-push-doc
+    path: skills/integrations/confluence/push-doc
+    type: integration
+    phase: integration
+    description: "Push a planning artifact (PRD, architecture, etc.) to Confluence."
+
+  - name: confluence-sync
+    path: skills/integrations/confluence/sync
+    type: integration
+    phase: integration
+    description: "Sync all planning artifacts to a Confluence space."
+
+  ## GitHub
+  - name: github-connect
+    path: skills/integrations/github/connect
+    type: integration
+    phase: integration
+    description: "Set up and verify GitHub connectivity via GitHub CLI (gh)."
+
+  - name: github-create-branch
+    path: skills/integrations/github/create-branch
+    type: integration
+    phase: integration
+    description: "Create a feature branch for a story with conflict detection."
+
+  - name: github-create-pr
+    path: skills/integrations/github/create-pr
+    type: integration
+    phase: integration
+    description: "Create a pull request linked to a JIRA story."
+
+  ## GitLab
+  - name: gitlab-connect
+    path: skills/integrations/gitlab/connect
+    type: integration
+    phase: integration
+    description: "Set up and verify GitLab connectivity via GitLab CLI (glab)."
+
+  - name: gitlab-create-branch
+    path: skills/integrations/gitlab/create-branch
+    type: integration
+    phase: integration
+    description: "Create a GitLab feature branch with conflict detection."
+
+  - name: gitlab-create-mr
+    path: skills/integrations/gitlab/create-mr
+    type: integration
+    phase: integration
+    description: "Create a GitLab merge request linked to a JIRA or GitLab issue."
+
+  ## Azure DevOps
+  - name: azure-devops-connect
+    path: skills/integrations/azure-devops/connect
+    type: integration
+    phase: integration
+    description: "Set up and verify Azure DevOps connectivity via az devops CLI."
+
+  - name: azure-devops-create-work-item
+    path: skills/integrations/azure-devops/create-work-item
+    type: integration
+    phase: integration
+    description: "Create Azure DevOps work items (epics, stories, tasks) from planning artifacts."
+
+  - name: azure-devops-create-pr
+    path: skills/integrations/azure-devops/create-pr
+    type: integration
+    phase: integration
+    description: "Create an Azure DevOps pull request linked to a work item."
+
+  # ─── Phase 5: Modernization (Legacy → Modern) ─────────────────────────────
+  - name: agent-sage
+    path: skills/5-modernize/agent-sage
+    type: agent
+    phase: modernize
+    description: "Sage — Legacy Domain Expert. Reads COBOL, Mainframe, RPG, J2EE, and legacy .NET systems. Extracts domain knowledge, business rules, and processes from existing code. The code is wrong. The business rules it encodes are right. Save the rules, not the code."
+
+  - name: read-legacy-code
+    path: skills/5-modernize/read-legacy-code
+    type: workflow
+    phase: modernize
+    description: "Systematically read and inventory a legacy codebase — COBOL/JCL/RPG/J2EE/.NET. Produces program inventory, data dictionary, job flow maps, call graphs, and integration points. Input to build-knowledge-graph."
+
+  - name: build-knowledge-graph
+    path: skills/5-modernize/build-knowledge-graph
+    type: workflow
+    phase: modernize
+    description: "Build a domain knowledge graph from legacy code and supporting documents. Extracts entities, business rules, and processes into queryable markdown artifacts. Supports code + document sources (design specs, user manuals, requirements docs)."
+
+  - name: validate-business-rules
+    path: skills/5-modernize/validate-business-rules
+    type: workflow
+    phase: modernize
+    description: "BA-driven review of extracted business rules. Aria reviews rule-by-rule with the domain expert: confirm, modify, deprecate, or defer each rule. Produces validated-rules.md — the source of truth for the new system."
+
+  - name: define-target-architecture
+    path: skills/5-modernize/define-target-architecture
+    type: workflow
+    phase: modernize
+    description: "Rex designs the target modern architecture constrained by the company's actual tech framework. Captures tech stack via interview, maps legacy components to modern services, designs APIs and events, selects migration approach (Strangler Fig / Parallel Run / Big Bang)."
+
+  - name: create-migration-epics
+    path: skills/5-modernize/create-migration-epics
+    type: workflow
+    phase: modernize
+    description: "Convert modernization architecture and migration strategy into implementable epics and stories. Every story is traceable to validated business rules and the legacy programs it replaces. Compatible with JIRA/Azure DevOps integrations and Nova (phase 4) implementation."

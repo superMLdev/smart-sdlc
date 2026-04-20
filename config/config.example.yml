@@ -1,0 +1,90 @@
+# Agentic SDLC — Project Configuration
+# Built by Superml.dev & superml.org | crazyaiml
+# Copy this file to _superml/config.yml in your project root.
+# Add _superml/config.yml to .gitignore — it contains credentials.
+
+# ─── Identity ─────────────────────────────────────────────────────────────────
+user_name: "Your Name"                # How agents will address you
+project_name: "My Project"            # Used in document headers
+team_name: ""                         # Optional team/org name
+
+# ─── Language ─────────────────────────────────────────────────────────────────
+communication_language: "English"     # Language agents use when talking to you
+document_output_language: "English"   # Language for generated documents
+
+# ─── AI Model Preferences ─────────────────────────────────────────────────────
+user_skill_level: "intermediate"      # beginner | intermediate | expert
+                                      # Controls how much explanation agents give
+
+# ─── Artifact Paths ───────────────────────────────────────────────────────────
+# Where generated documents are saved (relative to project root)
+planning_artifacts: "_superml-output/planning"         # PRDs, briefs, architecture
+implementation_artifacts: "_superml-output/implementation"  # Stories, sprint docs, reviews
+project_knowledge: "docs"                              # Long-lived docs, research, references
+
+# ─── JIRA Integration ─────────────────────────────────────────────────────────
+jira:
+  enabled: false
+  base_url: "https://your-org.atlassian.net"
+  project_key: "PROJ"                 # e.g. MYAPP
+  email: "you@yourorg.com"
+  api_token: ""                       # Generate at: id.atlassian.com/manage-profile/security/api-tokens
+  # Story type mappings
+  epic_issue_type: "Epic"
+  story_issue_type: "Story"
+  task_issue_type: "Task"
+  # Board / sprint
+  board_id: ""                        # Optional: for sprint operations
+  default_assignee: ""                # Optional: default story assignee
+
+# ─── Confluence Integration ───────────────────────────────────────────────────
+confluence:
+  enabled: false
+  base_url: "https://your-org.atlassian.net/wiki"
+  space_key: "PROJ"                   # Target Confluence space
+  email: "you@yourorg.com"
+  api_token: ""                       # Same token as JIRA (if Atlassian Cloud)
+  # Page hierarchy
+  root_page_title: "Project Docs"     # Parent page for all pushed documents
+  prd_page_parent: "Requirements"
+  architecture_page_parent: "Architecture"
+  stories_page_parent: "Stories"
+
+# ─── GitHub Integration ───────────────────────────────────────────────────────
+github:
+  enabled: false
+  # Uses GitHub CLI (gh) — run `gh auth login` to authenticate
+  owner: "your-org"
+  repo: "your-repo"
+  default_base_branch: "main"
+  # Branch naming: {jira_key}-{story-slug}  e.g. PROJ-42-user-auth
+  branch_pattern: "{jira_key}-{story_slug}"
+  # PR template path (relative to repo root)
+  pr_template: ".github/pull_request_template.md"
+
+# ─── GitLab Integration ───────────────────────────────────────────────────────
+gitlab:
+  enabled: false
+  # Uses GitLab CLI (glab) — run `glab auth login` to authenticate
+  namespace: "your-group/your-repo"
+  default_base_branch: "main"
+  branch_pattern: "{jira_key}-{story_slug}"
+
+# ─── Azure DevOps Integration ─────────────────────────────────────────────────
+azure_devops:
+  enabled: false
+  # Uses Azure CLI (az devops) — run `az login` first
+  organization: "https://dev.azure.com/your-org"
+  project: "Your Project"
+  default_area_path: ""               # e.g. "Your Project\\Team"
+  default_iteration_path: ""          # e.g. "Your Project\\Sprint 1"
+
+# ─── Conflict Detection ───────────────────────────────────────────────────────
+conflict_detection:
+  enabled: true
+  # Check JIRA status before allowing branch creation
+  check_jira_before_branch: true
+  # Block if story status is one of:
+  blocked_statuses: ["In Progress", "In Review", "Done"]
+  # Check git remote for branch existence before creating
+  check_git_branch_exists: true

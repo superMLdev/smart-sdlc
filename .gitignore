@@ -1,0 +1,17 @@
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+.turbo/
+
+# OS
+.DS_Store
+
+# SuperML AI — personal config files (credentials + individual settings)
+# skills/, _superml/reference/, and _superml/config.yml structure are committed
+_superml/config.yml
+_superml/persona.yml
