@@ -189,3 +189,17 @@ See `_superml/integrations/jira/conflict-detect/SKILL.md` for full workflow.
 
 See `_superml/module.yaml` for the complete list of all skills with descriptions.
 
+## Contributing
+
+Contributions are welcome — new skills, integrations, CLI commands, and documentation improvements.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+- How to add a skill or integration
+- Skill file format and placement
+- PR guidelines and checklist
+- How to report issues
+
+## License
+
+[MIT](./LICENSE) © 2026 [Superml.dev](https://superml.dev)
+
