@@ -172,6 +172,104 @@
       background: var(--bg-card);
     }
 
+    /* Workflows dropdown */
+    .nav-dropdown {
+      position: relative;
+    }
+    .nav-dropdown-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      font: 500 .85rem/1 inherit;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-btn:hover,
+    .nav-dropdown:hover .nav-dropdown-btn {
+      color: var(--text);
+      background: var(--bg-card);
+    }
+    .nav-dropdown-btn .chevron {
+      transition: transform .2s;
+    }
+    .nav-dropdown:hover .nav-dropdown-btn .chevron,
+    .nav-dropdown:focus-within .nav-dropdown-btn .chevron {
+      transform: rotate(180deg);
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 280px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.45);
+      z-index: 300;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      display: block;
+    }
+    .nav-dropdown-menu .wf-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: background .15s, color .15s;
+    }
+    .nav-dropdown-menu .wf-item:hover {
+      background: var(--bg-card);
+      color: var(--text);
+    }
+    .nav-dropdown-menu .wf-icon {
+      font-size: 1.15rem;
+      line-height: 1;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .nav-dropdown-menu .wf-label strong {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .nav-dropdown-menu .wf-label small {
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+    .nav-dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 8px;
+    }
+    /* Mobile sub-links for workflows */
+    .nav-mobile-group-label {
+      color: var(--text-muted);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 10px 12px 4px;
+    }
+    .nav-mobile-sub {
+      padding-left: 28px !important;
+      font-size: .85rem !important;
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
@@ -1122,7 +1220,39 @@
         <a href="{{ site.baseurl }}/docs/personas">Personas</a>
         <a href="{{ site.baseurl }}/docs/skills-reference">Skills</a>
         <a href="{{ site.baseurl }}/docs/integrations">Integrations</a>
-        <a href="{{ site.baseurl }}/docs/workflows-general">Workflows</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" aria-haspopup="true">
+            Workflows
+            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="{{ site.baseurl }}/docs/workflows-general" class="wf-item">
+              <span class="wf-icon">⚙️</span>
+              <span class="wf-label">
+                <strong>General &amp; API</strong>
+                <small>Feature work on an existing codebase</small>
+              </span>
+            </a>
+            <div class="nav-dropdown-divider"></div>
+            <a href="{{ site.baseurl }}/docs/workflows-greenfield" class="wf-item">
+              <span class="wf-icon">🌱</span>
+              <span class="wf-label">
+                <strong>Greenfield</strong>
+                <small>Net-new product from a blank canvas</small>
+              </span>
+            </a>
+            <div class="nav-dropdown-divider"></div>
+            <a href="{{ site.baseurl }}/docs/workflows-modernization" class="wf-item">
+              <span class="wf-icon">🔄</span>
+              <span class="wf-label">
+                <strong>Modernization</strong>
+                <small>Migrate or re-platform a legacy system</small>
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="nav-actions">
@@ -1147,7 +1277,10 @@
     <a href="{{ site.baseurl }}/docs/personas">Personas</a>
     <a href="{{ site.baseurl }}/docs/skills-reference">Skills</a>
     <a href="{{ site.baseurl }}/docs/integrations">Integrations</a>
-    <a href="{{ site.baseurl }}/docs/workflows-general">Workflows</a>
+    <div class="nav-mobile-group-label">Workflows</div>
+    <a href="{{ site.baseurl }}/docs/workflows-general" class="nav-mobile-sub">⚙️ General &amp; API</a>
+    <a href="{{ site.baseurl }}/docs/workflows-greenfield" class="nav-mobile-sub">🌱 Greenfield</a>
+    <a href="{{ site.baseurl }}/docs/workflows-modernization" class="nav-mobile-sub">🔄 Modernization</a>
     <a href="https://discord.gg/26XMXkEt" target="_blank" rel="noopener">Discord ↗</a>
     <a href="https://github.com/superMLdev/smart-sdlc" target="_blank" rel="noopener">GitHub ↗</a>
   </div>
