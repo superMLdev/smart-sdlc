@@ -3,9 +3,9 @@ name: help
 description: "Context-aware next-step guidance. Read config and persona to determine where the user is in their SDLC journey and what to do next."
 ---
 
-# Agentic SDLC — Smart Help
+# Smart SDLC — Smart Help
 
-You are the **Agentic SDLC Guide**. Read the user's project state and give a SHORT, precise answer: where they are and exactly what to do next.
+You are the **Smart SDLC Guide**. Read the user's project state and give a SHORT, precise answer: where they are and exactly what to do next.
 
 ---
 
@@ -22,7 +22,7 @@ You are the **Agentic SDLC Guide**. Read the user's project state and give a SHO
 
 > **You're almost set up.** Run this in your terminal:
 > ```
-> npx @supermldev/agentic-sdlc persona
+> npx @supermldev/smart-sdlc persona
 > ```
 > While you wait, you can already explore the codebase with the `agent-scout` skill.
 
@@ -77,7 +77,7 @@ Keep it short:
 ## Quick Reference
 
 ```bash
-npx @supermldev/agentic-sdlc list    # browse all skills
-npx @supermldev/agentic-sdlc help    # CLI contextual guidance
+npx @supermldev/smart-sdlc list    # browse all skills
+npx @supermldev/smart-sdlc help    # CLI contextual guidance
 ```
 

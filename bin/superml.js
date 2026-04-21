@@ -20,7 +20,7 @@ if (!command || command === '--help' || command === '-h') {
 
 if (command === '--version' || command === '-v' || command === 'version') {
   const { version } = require('../package.json');
-  console.log(`agentic-sdlc v${version}`);
+  console.log(`smart-sdlc v${version}`);
   process.exit(0);
 }
 
@@ -39,22 +39,22 @@ commands[command]().catch(err => {
 function printHelp() {
   const { log } = require('../lib/utils/logger');
   log.banner();
-  log.line('Usage:  npx @supermldev/agentic-sdlc <command>');
+  log.line('Usage:  npx @supermldev/smart-sdlc <command>');
   log.line('');
   log.line('Commands:');
-  log.item('init     — Set up Agentic SDLC project for your team');
+  log.item('init     — Set up Smart SDLC project for your team');
   log.item('persona  — Configure your personal workspace and role');
   log.item('help     — What to do next — context-aware SDLC guidance');
   log.item('list     — List all available skills and agents');
   log.item('meeting  — Set up a multi-persona meeting context');
   log.item('update   — Update skills to the latest installed version');
-  log.item('clean    — Remove generated Agentic SDLC files from project');
+  log.item('clean    — Remove generated Smart SDLC files from project');
   log.line('');
   log.line('Examples:');
-  log.item('npx @supermldev/agentic-sdlc init');
-  log.item('npx @supermldev/agentic-sdlc persona');
-  log.item('npx @supermldev/agentic-sdlc list');
-  log.item('npx @supermldev/agentic-sdlc meeting');
-  log.item('npx @supermldev/agentic-sdlc clean');
+  log.item('npx @supermldev/smart-sdlc init');
+  log.item('npx @supermldev/smart-sdlc persona');
+  log.item('npx @supermldev/smart-sdlc list');
+  log.item('npx @supermldev/smart-sdlc meeting');
+  log.item('npx @supermldev/smart-sdlc clean');
   log.line('');
 }

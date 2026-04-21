@@ -1,4 +1,4 @@
-# Agentic SDLC — AI-Driven Development Framework
+# Smart SDLC — AI-Driven Development Framework
 
 > Built by [Superml.dev](https://superml.dev) & [superml.org](https://superml.org) by crazyaiml
 
@@ -6,7 +6,7 @@ A standalone AI-driven agile development framework that works natively inside Gi
 
 ## What It Is
 
-Agentic SDLC is a skills framework that gives your AI assistant structured expertise across the full software development lifecycle — from analysis and requirements through architecture, story creation, and implementation — with native integrations to JIRA, Confluence, GitHub, GitLab, and Azure DevOps.
+Smart SDLC is a skills framework that gives your AI assistant structured expertise across the full software development lifecycle — from analysis and requirements through architecture, story creation, and implementation — with native integrations to JIRA, Confluence, GitHub, GitLab, and Azure DevOps.
 
 Each **skill** is a markdown file (`SKILL.md`) containing structured instructions the AI reads and follows. No code execution, no installed tooling — just skills your AI activates on demand.
 
@@ -18,7 +18,7 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 | **Two-phase project setup** | `init` sets up the project for the whole team; `persona` lets each member configure their own workspace and role independently |
 | **Custom role names** | Team can name each persona (e.g. "Aria", "Rex", "Nova") — names flow through meeting docs and agent greetings |
 | **Company reference docs** | Drop company-specific guidelines, standards, and context into `_superml/reference/` — agents load them automatically on activation |
-| **Multi-persona meetings** | `npx @supermldev/agentic-sdlc meeting` generates a structured context prompt bringing all personas into one AI session |
+| **Multi-persona meetings** | `npx @supermldev/smart-sdlc meeting` generates a structured context prompt bringing all personas into one AI session |
 | **Artifact readiness guards** | Agents check prerequisites before starting work — warns if PRD, architecture, or epics are missing for the selected role |
 | **Full SDLC coverage** | Skills for analysis, requirements (PRD), architecture, ADRs, epics & stories, implementation, sprint planning, and modernization |
 | **Integration skills** | Native JIRA, Confluence, GitHub, GitLab, and Azure DevOps workflows via CLI tools |
@@ -28,8 +28,8 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 
 ## How It Works
 
-1. The **project Initiator** runs `npx @supermldev/agentic-sdlc init` once to set up project config, team role names, and reference folders
-2. Each **team member** runs `npx @supermldev/agentic-sdlc persona` to configure their own name, role, AI tool, and skill level
+1. The **project Initiator** runs `npx @supermldev/smart-sdlc init` once to set up project config, team role names, and reference folders
+2. Each **team member** runs `npx @supermldev/smart-sdlc persona` to configure their own name, role, AI tool, and skill level
 3. Point your AI assistant at a skill: _"Load skill: sml-agent-pm"_ or attach in Copilot: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
 4. The AI reads the skill, loads config and persona settings, loads company reference docs, and activates the persona
 5. For integration skills (JIRA, Confluence, GitHub), the AI uses available CLI tools (`gh`, `jira-cli`, `curl`) via your terminal
@@ -39,7 +39,7 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 ### 1. Set up the project (run once — team lead or PM)
 
 ```bash
-npx @supermldev/agentic-sdlc init
+npx @supermldev/smart-sdlc init
 ```
 
 Installs skills into `_superml/skills/`, creates `_superml/config.yml` with team role names and artifact readiness, scaffolds `_superml/reference/` for company docs. When **GitHub Copilot** is selected:
@@ -50,7 +50,7 @@ Installs skills into `_superml/skills/`, creates `_superml/config.yml` with team
 ### 2. Set up your personal workspace (each team member)
 
 ```bash
-npx @supermldev/agentic-sdlc persona
+npx @supermldev/smart-sdlc persona
 ```
 
 Creates `_superml/persona.yml` with your name, role, AI tool preference, and skill level. This file is personal and stays out of git. If GitHub Copilot is selected and `.github/agents/` or `.github/skills/` don't exist yet, they are generated automatically.
@@ -89,7 +89,7 @@ Each agent greets you by your configured name, explains what it can do, and pres
 ### 5. Run a multi-persona meeting
 
 ```bash
-npx @supermldev/agentic-sdlc meeting
+npx @supermldev/smart-sdlc meeting
 ```
 
 Generates a structured context prompt that brings multiple personas into a single AI session for design reviews, sprint planning, or architecture discussions.
@@ -145,13 +145,13 @@ Default names are overridden at project setup — your team picks the names.
 ## CLI Commands
 
 ```bash
-npx @supermldev/agentic-sdlc init       # Set up Agentic SDLC project for your team
-npx @supermldev/agentic-sdlc persona    # Configure your personal workspace and role
-npx @supermldev/agentic-sdlc help       # What to do next — context-aware SDLC guidance
-npx @supermldev/agentic-sdlc list       # List all available skills and agents
-npx @supermldev/agentic-sdlc meeting    # Set up a multi-persona meeting context
-npx @supermldev/agentic-sdlc update     # Update skills to the latest installed version
-npx @supermldev/agentic-sdlc clean      # Remove generated Agentic SDLC files
+npx @supermldev/smart-sdlc init       # Set up Smart SDLC project for your team
+npx @supermldev/smart-sdlc persona    # Configure your personal workspace and role
+npx @supermldev/smart-sdlc help       # What to do next — context-aware SDLC guidance
+npx @supermldev/smart-sdlc list       # List all available skills and agents
+npx @supermldev/smart-sdlc meeting    # Set up a multi-persona meeting context
+npx @supermldev/smart-sdlc update     # Update skills to the latest installed version
+npx @supermldev/smart-sdlc clean      # Remove generated Smart SDLC files
 ```
 
 ## Configuration

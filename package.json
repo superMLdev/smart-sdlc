@@ -1,7 +1,7 @@
 {
-  "name": "@supermldev/agentic-sdlc",
+  "name": "@supermldev/smart-sdlc",
   "version": "1.4.1",
-  "description": "Agentic SDLC — AI-Driven Development Framework built by Superml.dev & superml.org by crazyaiml. Works natively with GitHub Copilot, Claude, Cursor, and any AI coding assistant.",
+  "description": "Smart SDLC — AI-Driven Development Framework built by Superml.dev & superml.org by crazyaiml. Works natively with GitHub Copilot, Claude, Cursor, and any AI coding assistant.",
   "keywords": [
     "ai",
     "agile",
@@ -21,7 +21,7 @@
     "node": ">=16"
   },
   "bin": {
-    "agentic-sdlc": "bin/superml.js"
+    "smart-sdlc": "bin/superml.js"
   },
   "files": [
     "bin/",
