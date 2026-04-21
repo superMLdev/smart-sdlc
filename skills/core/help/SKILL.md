@@ -81,3 +81,13 @@ npx @supermldev/smart-sdlc list    # browse all skills
 npx @supermldev/smart-sdlc help    # CLI contextual guidance
 ```
 
+---
+
+## About Persona-Locked Skills
+
+Each skill has a **Persona Guard**. If a user tries a skill outside their role, the AI will redirect them to:
+- `/sml-meeting` — bring the right persona into the conversation
+- Their own skills for their role
+
+This keeps everyone in their lane while still enabling cross-persona collaboration via meetings.
+
