@@ -1,0 +1,53 @@
+title: Smart SDLC
+description: "AI-Driven Development Framework — Give your AI assistant structured expertise across the full software development lifecycle."
+url: "https://supermldev.github.io"
+baseurl: "/smart-sdlc"
+author:
+  name: Superml.dev
+  url: https://superml.dev
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: "highlight"
+    block:
+      line_numbers: false
+
+# Default layout for all pages
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+# Navigation links
+nav_links:
+  - title: Personas
+    url: /docs/personas
+  - title: Skills
+    url: /docs/skills-reference
+  - title: Integrations
+    url: /docs/integrations
+  - title: Workflows
+    url: /docs/workflows-general
+
+# Exclude these from Jekyll build
+exclude:
+  - node_modules/
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+  - "*.gemspec"
+  - bin/
+  - lib/
+  - skills/
+  - config/
+  - _superml/
+  - package.json
+  - package-lock.json
+  - .npmrc
+  - .npmignore
+  - module.yaml

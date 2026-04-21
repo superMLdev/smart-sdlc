@@ -1,0 +1,55 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*"   # triggers on version tags like v1.5.2, v2.0.0, etc.
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Version tag to publish (e.g. v1.5.2)"
+        required: false
+
+jobs:
+  publish:
+    name: Publish npm package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to create GitHub Releases
+      id-token: write   # needed for npm provenance
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@supermldev"
+
+      - name: Verify package version matches tag
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          TAG="${GITHUB_REF_NAME:-${{ github.event.inputs.tag }}}"
+          echo "Package version: $PKG_VERSION"
+          echo "Tag:             $TAG"
+          if [ -n "$TAG" ] && [ "$PKG_VERSION" != "$TAG" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match tag ($TAG)"
+            exit 1
+          fi
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
