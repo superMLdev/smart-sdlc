@@ -9,6 +9,7 @@ const commands = {
   update:  () => require('../lib/commands/update').run(),
   list:    () => require('../lib/commands/list').run(),
   meeting: () => require('../lib/commands/meeting').run(),
+  clean:   () => require('../lib/commands/clean').run(),
 };
 
 if (!command || command === '--help' || command === '-h' || command === 'help') {
@@ -45,11 +46,13 @@ function printHelp() {
   log.item('update   — Update skills to the latest installed version');
   log.item('list     — List all available skills and agents');
   log.item('meeting  — Set up a multi-persona meeting context');
+  log.item('clean    — Remove generated Agentic SDLC files from project');
   log.line('');
   log.line('Examples:');
   log.item('npx @supermldev/agentic-sdlc init');
   log.item('npx @supermldev/agentic-sdlc persona');
   log.item('npx @supermldev/agentic-sdlc list');
   log.item('npx @supermldev/agentic-sdlc meeting');
+  log.item('npx @supermldev/agentic-sdlc clean');
   log.line('');
 }
