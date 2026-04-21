@@ -1,6 +1,6 @@
 {
   "name": "@supermldev/agentic-sdlc",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Agentic SDLC — AI-Driven Development Framework built by Superml.dev & superml.org by crazyaiml. Works natively with GitHub Copilot, Claude, Cursor, and any AI coding assistant.",
   "keywords": [
     "ai",
