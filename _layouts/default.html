@@ -205,7 +205,7 @@
     .nav-dropdown-menu {
       display: none;
       position: absolute;
-      top: calc(100% + 8px);
+      top: 100%;
       left: 50%;
       transform: translateX(-50%);
       min-width: 280px;
@@ -213,8 +213,17 @@
       border: 1px solid var(--border-light);
       border-radius: 12px;
       padding: 8px;
+      padding-top: 16px;  /* visual gap without breaking hover */
       box-shadow: 0 16px 48px rgba(0,0,0,.45);
       z-index: 300;
+    }
+    /* Invisible bridge fills the gap so slow cursor movement keeps hover active */
+    .nav-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 0; right: 0;
+      height: 8px;
     }
     .nav-dropdown:hover .nav-dropdown-menu,
     .nav-dropdown:focus-within .nav-dropdown-menu {
@@ -1221,12 +1230,12 @@
         <a href="{{ site.baseurl }}/docs/skills-reference">Skills</a>
         <a href="{{ site.baseurl }}/docs/integrations">Integrations</a>
         <div class="nav-dropdown">
-          <button class="nav-dropdown-btn" aria-haspopup="true">
+          <a href="{{ site.baseurl }}/docs/workflows-general" class="nav-dropdown-btn" aria-haspopup="true">
             Workflows
             <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-          </button>
+          </a>
           <div class="nav-dropdown-menu">
             <a href="{{ site.baseurl }}/docs/workflows-general" class="wf-item">
               <span class="wf-icon">⚙️</span>
