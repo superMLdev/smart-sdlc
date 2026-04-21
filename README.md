@@ -147,9 +147,10 @@ Default names are overridden at project setup — your team picks the names.
 ```bash
 npx @supermldev/agentic-sdlc init       # Set up Agentic SDLC project for your team
 npx @supermldev/agentic-sdlc persona    # Configure your personal workspace and role
-npx @supermldev/agentic-sdlc update     # Update skills to the latest installed version
+npx @supermldev/agentic-sdlc help       # What to do next — context-aware SDLC guidance
 npx @supermldev/agentic-sdlc list       # List all available skills and agents
 npx @supermldev/agentic-sdlc meeting    # Set up a multi-persona meeting context
+npx @supermldev/agentic-sdlc update     # Update skills to the latest installed version
 npx @supermldev/agentic-sdlc clean      # Remove generated Agentic SDLC files
 ```
 

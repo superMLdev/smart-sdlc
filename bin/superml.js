@@ -10,9 +10,10 @@ const commands = {
   list:    () => require('../lib/commands/list').run(),
   meeting: () => require('../lib/commands/meeting').run(),
   clean:   () => require('../lib/commands/clean').run(),
+  help:    () => require('../lib/commands/help').run(),
 };
 
-if (!command || command === '--help' || command === '-h' || command === 'help') {
+if (!command || command === '--help' || command === '-h') {
   printHelp();
   process.exit(0);
 }
@@ -43,9 +44,10 @@ function printHelp() {
   log.line('Commands:');
   log.item('init     — Set up Agentic SDLC project for your team');
   log.item('persona  — Configure your personal workspace and role');
-  log.item('update   — Update skills to the latest installed version');
+  log.item('help     — What to do next — context-aware SDLC guidance');
   log.item('list     — List all available skills and agents');
   log.item('meeting  — Set up a multi-persona meeting context');
+  log.item('update   — Update skills to the latest installed version');
   log.item('clean    — Remove generated Agentic SDLC files from project');
   log.line('');
   log.line('Examples:');
