@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+.npmrc
 
 # Node
 node_modules/
