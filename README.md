@@ -29,7 +29,7 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 
 1. The **project Initiator** runs `npx @supermldev/agentic-sdlc init` once to set up project config, team role names, and reference folders
 2. Each **team member** runs `npx @supermldev/agentic-sdlc persona` to configure their own name, role, AI tool, and skill level
-3. Point your AI assistant at a skill: _"Load skill: agent-pm"_ or attach in Copilot: `#file:skills/2-planning/agent-pm/SKILL.md`
+3. Point your AI assistant at a skill: _"Load skill: agent-pm"_ or attach in Copilot: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
 4. The AI reads the skill, loads config and persona settings, loads company reference docs, and activates the persona
 5. For integration skills (JIRA, Confluence, GitHub), the AI uses available CLI tools (`gh`, `jira-cli`, `curl`) via your terminal
 
@@ -41,7 +41,7 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 npx @supermldev/agentic-sdlc init
 ```
 
-This installs skills, creates `_superml/config.yml` (project config) with your team's role names and artifact readiness state, and scaffolds `_superml/reference/` for company docs.
+This installs skills into `_superml/skills/`, creates `_superml/config.yml` (project config) with your team's role names and artifact readiness state, scaffolds `_superml/reference/` for company docs, and generates `.github/copilot-instructions.md` when GitHub integration is enabled.
 
 ### 2. Set up your personal workspace (each team member)
 
@@ -68,12 +68,12 @@ _superml/reference/
 ### 4. Activate an agent in your AI chat
 
 ```
-Load the skill at skills/2-planning/agent-pm/SKILL.md
+Load the skill at _superml/skills/2-planning/agent-pm/SKILL.md
 ```
 
 Or in GitHub Copilot:
 ```
-#file:skills/2-planning/agent-pm/SKILL.md
+#file:_superml/skills/2-planning/agent-pm/SKILL.md
 ```
 
 Each agent greets you by your configured name, explains what it can do, and presents a menu. Choose a workflow and the agent guides you step by step.
@@ -89,31 +89,32 @@ Generates a structured context prompt that brings multiple personas into a singl
 ## Project Structure
 
 ```
-skills/
-├── 0-relearn/           Codebase onboarding and exploration
-├── 1-analysis/          Phase 1 — Understand the problem
-├── 2-planning/          Phase 2 — Define requirements and UX
-├── 3-solutioning/       Phase 3 — Design architecture and break down work
-├── 4-implementation/    Phase 4 — Build, test, ship
-├── 5-modernize/         Legacy analysis and migration planning
-├── core/                Cross-cutting utility skills
-└── integrations/        JIRA, Confluence, GitHub, GitLab, Azure DevOps
-
 _superml/
-├── config.yml           Project config (gitignored) — team names, paths, integrations
-├── persona.yml          Personal config (gitignored) — your name, role, preferences
-└── reference/           Company-specific docs loaded by agents on activation
+├── skills/
+│   ├── 0-relearn/           Codebase onboarding and exploration
+│   ├── 1-analysis/          Phase 1 — Understand the problem
+│   ├── 2-planning/          Phase 2 — Define requirements and UX
+│   ├── 3-solutioning/       Phase 3 — Design architecture and break down work
+│   ├── 4-implementation/    Phase 4 — Build, test, ship
+│   ├── 5-modernize/         Legacy analysis and migration planning
+│   ├── core/                Cross-cutting utility skills
+│   └── integrations/        JIRA, Confluence, GitHub, GitLab, Azure DevOps
+├── module.yaml              Skill registry
+├── config.yml               Project config (gitignored) — team names, paths, integrations
+├── persona.yml              Personal config (gitignored) — your name, role, preferences
+├── meetings/                Generated multi-persona meeting context docs
+└── reference/               Company-specific docs loaded by agents on activation
 ```
 
 ## Personas
 
 | Persona | Default Name | Role | Starter Skill |
 |---------|-------------|------|---------------|
-| Product / BA | Aria | Requirements, PRDs, user stories | `skills/2-planning/agent-pm/SKILL.md` |
-| Architect | Rex | System design, ADRs, architecture | `skills/3-solutioning/agent-architect/SKILL.md` |
-| Developer | Nova | Implementation, code review, tech debt | `skills/4-implementation/agent-developer/SKILL.md` |
-| Modernization Lead | Sage | Legacy analysis, migration planning | `skills/5-modernize/agent-sage/SKILL.md` |
-| Team Lead / PM | Lead | Epics, sprint planning, delivery | `skills/4-implementation/sprint-planning/SKILL.md` |
+| Product / BA | Aria | Requirements, PRDs, user stories | `_superml/skills/2-planning/agent-pm/SKILL.md` |
+| Architect | Rex | System design, ADRs, architecture | `_superml/skills/3-solutioning/agent-architect/SKILL.md` |
+| Developer | Nova | Implementation, code review, tech debt | `_superml/skills/4-implementation/agent-developer/SKILL.md` |
+| Modernization Lead | Sage | Legacy analysis, migration planning | `_superml/skills/5-modernize/agent-sage/SKILL.md` |
+| Team Lead / PM | Lead | Epics, sprint planning, delivery | `_superml/skills/4-implementation/sprint-planning/SKILL.md` |
 
 Default names are overridden at project setup — your team picks the names.
 
@@ -154,9 +155,9 @@ Built-in conflict detection at 3 layers:
 2. **Git branch lock** — before creating a branch, `git ls-remote` checks the branch name (pattern: `{JIRA-KEY}-{slug}`) to detect parallel work.
 3. **Confluence version traceability** — generated stories embed the source document version; stale-doc conflicts surface at story creation time.
 
-See `skills/integrations/jira/conflict-detect/SKILL.md` for full workflow.
+See `_superml/integrations/jira/conflict-detect/SKILL.md` for full workflow.
 
 ## Skill Registry
 
-See `module.yaml` for the complete list of all skills with descriptions.
+See `_superml/module.yaml` for the complete list of all skills with descriptions.
 
