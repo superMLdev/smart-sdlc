@@ -6,6 +6,8 @@ author:
   name: Superml.dev
   url: https://superml.dev
 
+permalink: pretty
+
 markdown: kramdown
 highlighter: rouge
 kramdown:
