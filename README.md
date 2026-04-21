@@ -189,6 +189,12 @@ See `_superml/integrations/jira/conflict-detect/SKILL.md` for full workflow.
 
 See `_superml/module.yaml` for the complete list of all skills with descriptions.
 
+## Community
+
+Join us on Discord: [discord.gg/26XMXkEt](https://discord.gg/26XMXkEt)
+
+Ask questions, share workflows, and connect with other Smart SDLC users and contributors.
+
 ## Contributing
 
 Contributions are welcome — new skills, integrations, CLI commands, and documentation improvements.
@@ -198,6 +204,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
 - Skill file format and placement
 - PR guidelines and checklist
 - How to report issues
+
+## Security
+
+Please do not open public issues for security vulnerabilities. See [SECURITY.md](./SECURITY.md) for the responsible disclosure process.
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant](./CODE_OF_CONDUCT.md). By participating you agree to abide by its terms.
 
 ## License
 

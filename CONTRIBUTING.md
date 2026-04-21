@@ -169,9 +169,15 @@ Open a GitHub Issue with:
 
 ---
 
+## Community
+
+Join the Smart SDLC Discord for questions, ideas, and real-time discussion with maintainers and other contributors:
+
+[discord.gg/26XMXkEt](https://discord.gg/26XMXkEt)
+
 ## Code of Conduct
 
-Be respectful, collaborative, and constructive. We follow the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct.
+Be respectful, collaborative, and constructive. We follow the [Contributor Covenant](./CODE_OF_CONDUCT.md). By participating you agree to abide by its terms.
 
 ---
 
