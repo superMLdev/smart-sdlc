@@ -6,19 +6,248 @@ Smart SDLC connects to external systems via CLI tools your AI assistant runs in 
 
 ## Supported Integrations
 
-| System | What It Does | CLI Tool Required |
+| System | What It Does | Connection Mode |
 |---|---|---|
-| **JIRA** | Create epics/stories, sync backlog, detect conflicts | `curl` + JIRA REST API |
-| **Confluence** | Push planning docs, sync PRDs and architecture | `curl` + Confluence REST API |
+| **JIRA** | Create epics/stories, sync backlog, detect conflicts | REST API or MCP Server |
+| **Confluence** | Push planning docs, sync PRDs and architecture | REST API or MCP Server |
 | **GitHub** | Create branches, open PRs, link commits | `gh` CLI |
 | **GitLab** | Create branches, open merge requests | `glab` CLI |
 | **Azure DevOps** | Create work items, manage sprints | `az devops` (Azure CLI) |
+| **Company Knowledge** | Pull internal docs, frameworks, and platform libraries into AI context | URL (REST) or MCP Server |
 
 All integrations are **opt-in**. Set `enabled: true` in the relevant section of `_superml/config.yml`.
 
 ---
 
+## MCP Server Setup
+
+JIRA, Confluence, and Company Knowledge integrations can use **Model Context Protocol (MCP) servers** instead of REST API calls. In MCP mode the AI makes tool calls directly from chat — no `curl`, no stored API tokens.
+
+> **When to use MCP mode:**
+> - You want to avoid storing Atlassian API tokens locally
+> - Your company already operates an MCP server for internal systems
+> - You prefer the AI to query live data interactively rather than via shell commands
+
+MCP servers are configured in `.vscode/mcp.json` in your project root. Smart SDLC skills read `server_name` from `_superml/config.yml` and call that server by name in Copilot chat.
+
+> **Security:** Add `.vscode/mcp.json` to `.gitignore` — it may contain tokens or server URLs you don't want committed.
+
+---
+
+### Option 1 — Atlassian Remote MCP (official, Jira/Confluence cloud)
+
+The official Atlassian MCP server. Uses OAuth — no API token required.
+
+**Prerequisites**: Atlassian Cloud account with admin or API access.
+
+**1. Add to `.vscode/mcp.json`:**
+
+```json
+{
+  "servers": {
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v1/sse",
+      "gallery": true
+    }
+  }
+}
+```
+
+**2. Authenticate:**
+
+Open GitHub Copilot Chat, type `@atlassian` — Copilot will prompt you to sign in via OAuth. Approve the required Jira and Confluence scopes.
+
+**3. Verify:**
+
+```
+@atlassian list my projects
+```
+
+You should see your Atlassian projects listed in chat.
+
+**4. Set in config:**
+
+```yaml
+# _superml/config.yml
+jira:
+  connection_mode: mcp
+  mcp_server:
+    type: atlassian_remote
+    name: atlassian
+
+confluence:
+  connection_mode: mcp
+  mcp_server:
+    type: atlassian_remote
+    name: atlassian    # same server — reused automatically
+```
+
+---
+
+### Option 2 — @sooperset/mcp-atlassian (self-hosted, Cloud + Server/Data Centre)
+
+An npm-published MCP server that works with both Atlassian Cloud and self-hosted Jira/Confluence Server or Data Centre.
+
+**Prerequisites**: Node.js 18+.
+
+**1. Add to `.vscode/mcp.json`:**
+
+For **Atlassian Cloud** (API token auth):
+```json
+{
+  "servers": {
+    "atlassian": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@sooperset/mcp-atlassian"],
+      "env": {
+        "CONFLUENCE_URL": "https://your-org.atlassian.net/wiki",
+        "CONFLUENCE_USERNAME": "you@yourorg.com",
+        "CONFLUENCE_API_TOKEN": "your-token",
+        "JIRA_URL": "https://your-org.atlassian.net",
+        "JIRA_USERNAME": "you@yourorg.com",
+        "JIRA_API_TOKEN": "your-token"
+      }
+    }
+  }
+}
+```
+
+For **Jira/Confluence Server or Data Centre** (Personal Access Token):
+```json
+{
+  "servers": {
+    "atlassian": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@sooperset/mcp-atlassian"],
+      "env": {
+        "CONFLUENCE_URL": "https://confluence.yourcompany.com",
+        "CONFLUENCE_PERSONAL_TOKEN": "your-pat",
+        "JIRA_URL": "https://jira.yourcompany.com",
+        "JIRA_PERSONAL_TOKEN": "your-pat"
+      }
+    }
+  }
+}
+```
+
+**2. Verify:**
+
+Restart VS Code (or reload the MCP extension), then in Copilot Chat:
+```
+@atlassian list projects
+```
+
+**3. Set in config:**
+
+```yaml
+# _superml/config.yml
+jira:
+  connection_mode: mcp
+  mcp_server:
+    type: sooperset
+    name: atlassian
+
+confluence:
+  connection_mode: mcp
+  mcp_server:
+    type: sooperset
+    name: atlassian
+```
+
+---
+
+### Option 3 — Custom or Company MCP Server
+
+Use any MCP server your company hosts — for Jira, Confluence, internal developer portals, or any other system.
+
+**1. Add to `.vscode/mcp.json`:**
+
+For a **hosted HTTP/SSE endpoint**:
+```json
+{
+  "servers": {
+    "platform-docs": {
+      "type": "http",
+      "url": "https://mcp.internal.yourcompany.com/sse",
+      "headers": {
+        "Authorization": "Bearer YOUR_INTERNAL_TOKEN"
+      }
+    }
+  }
+}
+```
+
+For a **local CLI / npm package**:
+```json
+{
+  "servers": {
+    "platform-docs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@yourorg/platform-mcp-server"],
+      "env": {
+        "API_TOKEN": "your-token"
+      }
+    }
+  }
+}
+```
+
+For a **local shell command**:
+```json
+{
+  "servers": {
+    "internal-docs": {
+      "type": "stdio",
+      "command": "/usr/local/bin/internal-mcp",
+      "args": ["--config", "~/.mcp-config.json"]
+    }
+  }
+}
+```
+
+**2. Verify:**
+
+In Copilot Chat, call the server by its key in `.vscode/mcp.json`:
+```
+@platform-docs help
+```
+
+**3. Reference in config** (for Company Knowledge sources):
+
+```yaml
+# _superml/config.yml
+company_knowledge:
+  enabled: true
+  sources:
+    - key: platform-docs
+      name: "Platform Docs"
+      access:
+        type: mcp
+        server_name: platform-docs   # must match the key in .vscode/mcp.json
+```
+
+---
+
+### Enabling MCP in VS Code
+
+MCP server support requires **GitHub Copilot with agent mode enabled** (VS Code 1.99+).
+
+1. Open VS Code Settings → search `chat.mcp.enabled` → set to `true`
+2. Create or edit `.vscode/mcp.json` in your project root with the server definition
+3. Reload VS Code — new servers appear automatically in Copilot Chat
+4. Call the server using `@server-name` in any Copilot Chat message
+
+> MCP servers defined in `.vscode/mcp.json` are workspace-scoped. You can also define global servers in VS Code User Settings under `mcp.servers` if you want them available across all projects.
+
+---
+
 ## JIRA
+
+> **Connection modes**: JIRA supports both REST API (email + API token) and MCP Server. Run `/sml-jira-connect` — it asks which mode you want and handles setup for both.
 
 ### Setup
 
@@ -39,6 +268,13 @@ jira:
 1. Log in to [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens)
 2. Click **Create API token**
 3. Copy the token into `api_token` in `config.yml`
+
+> **Using MCP Server instead?** Skip the API token — `/sml-jira-connect` will walk you through configuring one of:
+> - **Atlassian Remote MCP** — official OAuth-based cloud server (no credentials stored locally)
+> - **`@sooperset/mcp-atlassian`** — self-hosted npm package, supports both Cloud and Server/Data Centre
+> - **Custom URL** — your company’s own hosted MCP endpoint
+>
+> In MCP mode, the AI uses Copilot tool calls to `@atlassian` instead of `curl`. No credentials are written to `_superml/config.yml`.
 
 **3. Connect and verify:**
 
@@ -93,6 +329,8 @@ When `board_id` is set in config and `sprint-planning` is run with JIRA enabled,
 ---
 
 ## Confluence
+
+> **Connection modes**: same as JIRA. If JIRA is already connected via MCP, `/sml-confluence-connect` detects this and offers to reuse the same Atlassian MCP server — no extra setup needed.
 
 ### Setup
 
@@ -304,3 +542,80 @@ Drop any markdown files into these folders. Agents use them as company-specific 
 - `developer/` — coding standards, PR checklist, test coverage requirements
 - `architect/` — preferred technology choices, non-negotiable constraints, security standards
 - `product/` — brand voice, customer personas, design principles
+
+---
+
+## Company Knowledge
+
+The Company Knowledge integration lets you register internal knowledge sources — framework documentation, platform library references, developer portals, internal wikis — and pull them into any AI session on demand.
+
+This is distinct from `_superml/reference/`: reference is static markdown files you manage manually; Company Knowledge is live data fetched at runtime from URLs or MCP servers.
+
+### Setup
+
+```
+/sml-company-knowledge-connect
+```
+
+The skill walks you through registering one or more sources. For each source you choose:
+
+**Option A — URL**
+
+Fetch documentation from any HTTP endpoint. Supports authentication modes:
+- `none` — public endpoint
+- `bearer` — `Authorization: Bearer <token>`
+- `basic` — `Authorization: Basic <base64>`
+- `header` — any custom header name + value
+
+```yaml
+# _superml/config.yml (auto-written by the skill)
+company_knowledge:
+  enabled: true
+  sources:
+    - key: spring-platform
+      name: "Internal Spring Platform Docs"
+      description: "Company Spring Boot wrapper — conventions, starters, and examples"
+      access:
+        type: url
+        base_url: "https://devportal.internal/api/docs"
+        auth:
+          type: bearer
+          token: "${DEVPORTAL_TOKEN}"
+        response_format: markdown
+      personas: all
+```
+
+**Option B — MCP Server**
+
+Connect to a company MCP server. The skill generates the correct `.vscode/mcp.json` entry for:
+- `npm_package` — an npm-published MCP server (e.g. `@yourorg/docs-mcp-server`)
+- `url` — a hosted MCP endpoint
+- `command` — a local CLI command
+
+```yaml
+# _superml/config.yml
+company_knowledge:
+  sources:
+    - key: platform-docs
+      name: "Platform Docs MCP"
+      access:
+        type: mcp
+        server_name: "platform-docs"
+      personas: [developer, architect]
+```
+
+The skill also warns you to add `.vscode/mcp.json` to `.gitignore`.
+
+### Fetching a Source
+
+```
+/sml-company-knowledge-fetch
+```
+
+Lists your registered sources. You pick one (or pass a key/topic as an argument). The skill:
+- For URL sources: constructs the request with the correct auth headers, formats the response by type (JSON, Markdown, HTML, plain text), and handles large responses
+- For MCP sources: uses `@{server_name}` tool calls (list, get, search, show examples)
+
+After fetching, the AI summarises what was loaded and suggests next actions: generate code from conventions, answer questions about the framework, compare against the current codebase, or incorporate into a story or architecture doc.
+
+**Security**: tokens and passwords are never logged in AI output. Fetched content is never written to git-tracked files.

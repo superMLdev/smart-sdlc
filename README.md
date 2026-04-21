@@ -21,7 +21,9 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 | **Multi-persona meetings** | `npx @supermldev/smart-sdlc meeting` generates a structured context prompt bringing all personas into one AI session |
 | **Artifact readiness guards** | Agents check prerequisites before starting work — warns if PRD, architecture, or epics are missing for the selected role |
 | **Full SDLC coverage** | Skills for analysis, requirements (PRD), architecture, ADRs, epics & stories, implementation, sprint planning, and modernization |
-| **Integration skills** | Native JIRA, Confluence, GitHub, GitLab, and Azure DevOps workflows via CLI tools |
+| **Integration skills** | Native JIRA, Confluence, GitHub, GitLab, and Azure DevOps workflows — via REST API or MCP Server |
+| **Company Knowledge** | Register internal framework docs, platform libraries, and developer portals — fetch via URL (bearer/basic/header auth) or company MCP server — pulled into AI context on demand |
+| **Company Knowledge** | Register internal framework docs, platform libraries, and developer portals — fetch via URL (with bearer/basic/header auth) or a company MCP server — pulled into AI context on demand |
 | **Conflict prevention** | JIRA ticket lock, git branch lock, and Confluence version traceability prevent parallel work conflicts |
 | **Copilot slash commands** | Skills are generated as `.github/skills/<name>/SKILL.md` — each appears as a `/skill-name` slash command in GitHub Copilot Chat |
 | **Zero dependencies** | Pure Node.js CLI — no external packages required |
@@ -32,7 +34,7 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 2. Each **team member** runs `npx @supermldev/smart-sdlc persona` to configure their own name, role, AI tool, and skill level
 3. Point your AI assistant at a skill: _"Load skill: sml-agent-pm"_ or attach in Copilot: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
 4. The AI reads the skill, loads config and persona settings, loads company reference docs, and activates the persona
-5. For integration skills (JIRA, Confluence, GitHub), the AI uses available CLI tools (`gh`, `jira-cli`, `curl`) via your terminal
+5. For integration skills (JIRA, Confluence, GitHub), the AI uses REST API calls or MCP server tool calls, depending on your configured connection mode
 
 ## Quick Start
 

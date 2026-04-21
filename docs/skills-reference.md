@@ -159,7 +159,7 @@ See [Integrations](./integrations.md) for full setup and usage.
 
 | Skill | Command | What It Does |
 |---|---|---|
-| **jira-connect** | `/sml-jira-connect` | Set up and verify JIRA connectivity, store credentials |
+| **jira-connect** | `/sml-jira-connect` | Set up JIRA connectivity — choose REST API (email + token) or MCP Server (Atlassian Remote / `@sooperset/mcp-atlassian` / custom URL) |
 | **jira-create-epic** | `/sml-jira-create-epic` | Create an epic in JIRA from a Smart SDLC epics artifact |
 | **jira-create-story** | `/sml-jira-create-story` | Create a JIRA story from a Smart SDLC story file |
 | **jira-sync** | `/sml-jira-sync` | Sync all epics and stories from planning artifacts to JIRA |
@@ -169,7 +169,7 @@ See [Integrations](./integrations.md) for full setup and usage.
 
 | Skill | Command | What It Does |
 |---|---|---|
-| **confluence-connect** | `/sml-confluence-connect` | Set up and verify Confluence connectivity |
+| **confluence-connect** | `/sml-confluence-connect` | Set up Confluence connectivity — REST API or MCP Server; auto-detects if JIRA is already using Atlassian MCP and offers to reuse it |
 | **confluence-push-doc** | `/sml-confluence-push-doc` | Push a planning artifact (PRD, architecture, etc.) to a Confluence page |
 
 ### GitHub
@@ -179,6 +179,15 @@ See [Integrations](./integrations.md) for full setup and usage.
 | **github-connect** | `/sml-github-connect` | Verify `gh` CLI authentication and repo access |
 | **github-create-branch** | `/sml-github-create-branch` | Create a feature branch following the configured naming convention |
 | **github-create-pr** | `/sml-github-create-pr` | Create a PR from current branch with auto-filled template |
+
+### Company Knowledge
+
+*Available to all personas.*
+
+| Skill | Command | What It Does | Output |
+|---|---|---|---|
+| **company-knowledge-connect** | `/sml-company-knowledge-connect` | Register internal knowledge sources — framework docs, platform libraries, developer portals — via URL (with optional auth) or a company MCP server | `company_knowledge.sources[]` in `_superml/config.yml` |
+| **company-knowledge-fetch** | `/sml-company-knowledge-fetch` | Pull a registered knowledge source into the current AI session; handles URL auth and MCP tool calls; summarises what was loaded and suggests next actions | Knowledge in AI context |
 
 ---
 
@@ -204,6 +213,7 @@ See [Integrations](./integrations.md) for full setup and usage.
 /sml-relearn-codebase       # Onboard to codebase
 /sml-read-legacy-code       # Deep-read legacy system
 /sml-build-knowledge-graph  # Extract business rules
+/sml-company-knowledge-fetch # Pull internal docs into AI context
 ```
 
 ### Other AI Assistants (Claude, Cursor, etc.)
