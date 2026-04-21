@@ -301,3 +301,15 @@ For `api` project type, the workflow is the same but with these additions:
 - **Phase 0:** Run `/sml-generate-api-docs` after Scout analysis to produce an OpenAPI baseline
 - **Phase 2 Architecture:** Rex focuses the architecture document on API contract design — endpoint specs, request/response schemas, versioning strategy, auth model
 - **Phase 4:** Nova applies API-specific conventions (status codes, error envelopes, idempotency) loaded from `_superml/reference/developer/`
+
+---
+
+## Other Workflows
+
+Not the right workflow for your project type? Choose below:
+
+| Workflow | Project Type | When to Use |
+|---|---|---|
+| **General & API** *(this page)* | `general`, `api` | Feature work on an existing product or new API on an established codebase |
+| [Greenfield](workflows-greenfield) | `greenfield` | Net-new product built from a blank canvas — no existing codebase |
+| [Modernization](workflows-modernization) | `modernization` | Migrating or re-platforming a legacy system — understand, extract, redesign, deliver |

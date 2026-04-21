@@ -315,3 +315,15 @@ product-brief.md
 | Stories | All new | Mix of new and change stories |
 | Sprint 0 | Scaffolding and infrastructure | Usually skipped |
 | Dev context | `project-context.md` only | `project-context.md` + existing docs |
+
+---
+
+## Other Workflows
+
+Not the right workflow for your project type? Choose below:
+
+| Workflow | Project Type | When to Use |
+|---|---|---|
+| [General & API](workflows-general) | `general`, `api` | Feature work on an existing product or new API on an established codebase |
+| **Greenfield** *(this page)* | `greenfield` | Net-new product built from a blank canvas — no existing codebase |
+| [Modernization](workflows-modernization) | `modernization` | Migrating or re-platforming a legacy system — understand, extract, redesign, deliver |

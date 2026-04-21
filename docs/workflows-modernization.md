@@ -288,3 +288,15 @@ artifact_readiness:
 | Creating one giant epic for data migration | Break data migration into per-entity or per-domain stories |
 | Big-bang rewrite without parallel-run | Use the strangler-fig pattern and run systems in parallel |
 | Losing traceability between legacy rule and new code | Every story must reference the business rule ID from the validated catalogue |
+
+---
+
+## Other Workflows
+
+Not the right workflow for your project type? Choose below:
+
+| Workflow | Project Type | When to Use |
+|---|---|---|
+| [General & API](workflows-general) | `general`, `api` | Feature work on an existing product or new API on an established codebase |
+| [Greenfield](workflows-greenfield) | `greenfield` | Net-new product built from a blank canvas — no existing codebase |
+| **Modernization** *(this page)* | `modernization` | Migrating or re-platforming a legacy system — understand, extract, redesign, deliver |
