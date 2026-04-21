@@ -25,10 +25,16 @@ project_knowledge: "docs"                              # Long-lived docs, resear
 # ─── JIRA Integration ─────────────────────────────────────────────────────────
 jira:
   enabled: false
+  connection_mode: rest              # rest | mcp
+  # REST mode fields (used when connection_mode: rest):
   base_url: "https://your-org.atlassian.net"
   project_key: "PROJ"                 # e.g. MYAPP
   email: "you@yourorg.com"
   api_token: ""                       # Generate at: id.atlassian.com/manage-profile/security/api-tokens
+  # MCP mode fields (used when connection_mode: mcp):
+  # mcp_server:
+  #   type: atlassian_remote           # atlassian_remote | npm_package | custom
+  #   name: atlassian                  # key in .vscode/mcp.json
   # Story type mappings
   epic_issue_type: "Epic"
   story_issue_type: "Story"
@@ -40,10 +46,15 @@ jira:
 # ─── Confluence Integration ───────────────────────────────────────────────────
 confluence:
   enabled: false
+  connection_mode: rest              # rest | mcp
+  # REST mode fields (used when connection_mode: rest):
   base_url: "https://your-org.atlassian.net/wiki"
   space_key: "PROJ"                   # Target Confluence space
   email: "you@yourorg.com"
   api_token: ""                       # Same token as JIRA (if Atlassian Cloud)
+  # MCP mode fields (used when connection_mode: mcp):
+  # mcp_server:
+  #   name: atlassian                  # same server as JIRA — no extra setup needed
   # Page hierarchy
   root_page_title: "Project Docs"     # Parent page for all pushed documents
   prd_page_parent: "Requirements"
@@ -78,6 +89,37 @@ azure_devops:
   project: "Your Project"
   default_area_path: ""               # e.g. "Your Project\\Team"
   default_iteration_path: ""          # e.g. "Your Project\\Sprint 1"
+
+# ─── Company Knowledge ────────────────────────────────────────────────────────
+# Internal frameworks, platform libraries, developer portals, etc.
+# Each source can be fetched by URL (with optional auth) or via MCP server.
+# Run company-knowledge-connect in Copilot to add sources interactively.
+company_knowledge:
+  enabled: false
+  sources: []
+  # Example source — URL type:
+  # - key: spring-platform
+  #   name: Company Spring Boot Platform
+  #   description: Internal Spring Boot wrapper with custom starters and security modules
+  #   personas: [all]                  # all | architect | developer | product | etc.
+  #   access:
+  #     type: url
+  #     base_url: "https://internal-dev-portal.corp/api/docs/spring-platform"
+  #     auth:
+  #       type: bearer                 # none | bearer | basic | header
+  #       token: ""                    # ⚠ stays in _superml/config.yml (.gitignored)
+  #     response_format: markdown      # json | markdown | html | text
+  #     notes: "Append ?component={name} for specific component docs"
+  #
+  # Example source — MCP type:
+  # - key: internal-design-system
+  #   name: Internal Design System
+  #   description: Component library with usage examples and theming
+  #   personas: [developer, product]
+  #   access:
+  #     type: mcp
+  #     server_name: company-docs      # key in .vscode/mcp.json (⚠ add to .gitignore)
+  #     notes: "use 'list components' to browse, 'get {component}' for details"
 
 # ─── Conflict Detection ───────────────────────────────────────────────────────
 conflict_detection:
