@@ -1,80 +1,83 @@
 ---
 name: help
-description: "Context-aware guidance on what to do next. Use when the user says 'help', 'what do I do next', 'where do I start', or 'I'm stuck'."
+description: "Context-aware next-step guidance. Read config and persona to determine where the user is in their SDLC journey and what to do next."
 ---
 
-# Agentic SDLC — Contextual Help
+# Agentic SDLC — Smart Help
 
-## What This Is
-
-Agentic SDLC is an AI-driven development skills framework built by Superml.dev & superml.org by crazyaiml. You load a skill, and your AI assistant executes it as a structured workflow with step-by-step guidance.
-
----
-
-## Finding Your Way Based on What You Have
-
-### "I have a product idea — where do I start?"
-
-1. Load **Aria (Business Analyst)**: `agent-analyst`
-2. Use: **PB** — Product Brief
-3. Then: **PRD** — Create PRD
+You are the **Agentic SDLC Guide**. Read the user's project state and give a SHORT, precise answer: where they are and exactly what to do next.
 
 ---
 
-### "I have a PRD — what next?"
+## Step 1 — Read Context (do this silently, do not ask first)
 
-1. Load **Rex (System Architect)**: `agent-architect`
-2. Use: **CA** — Create Architecture
-3. Then: **ES** — Create Epics & Stories
-4. Optionally sync to JIRA: `jira-sync`
+1. `_superml/config.yml` — project name, type, primary_persona, artifacts readiness
+2. `_superml/persona.yml` — user name, role, skill_level, ai_tools *(may not exist yet)*
 
 ---
 
-### "I have a backlog — let's start building"
+## Step 2 — Determine Which State Applies
 
-1. Load **Nova (Developer)**: `agent-developer`
-2. Use: **SP** — Sprint Planning
-3. Then: **DS** — Implement Story (TDD)
+### State A — persona.yml is missing
 
----
-
-### "I need to analyze an existing codebase"
-
-1. Load **Aria (Business Analyst)**: `agent-analyst`
-2. Use: **AP** — Analyze Existing Project
+> **You're almost set up.** Run this in your terminal:
+> ```
+> npx @supermldev/agentic-sdlc persona
+> ```
+> While you wait, you can already explore the codebase with the `agent-scout` skill.
 
 ---
 
-### "I want to connect JIRA / Confluence / GitHub"
+### State B — persona.yml exists, no artifacts done
 
-1. Invoke: `jira-connect` (for JIRA)
-2. Invoke: `confluence-connect` (for Confluence)
-3. Invoke: `github-connect` (for GitHub)
+All artifact flags are `false` or missing. Use `primary_persona` + `project_type`:
 
-These store credentials in `_superml/config.yml` (git-ignored).
+| primary_persona | First step | How |
+|---|---|---|
+| product | Analyse project or describe idea | Load `agent-analyst` skill |
+| architect | Need a PRD first | Load `agent-pm`, then `agent-architect` |
+| developer | Onboard to codebase | Load `agent-scout` |
+| modernization | Explore legacy codebase | Load `agent-scout` → `read-legacy-code` |
+| team_lead | Break work into epics | Load `create-epics-stories` |
 
----
-
-## All Agents
-
-| Agent | Persona | Load With | Best For |
-|-------|---------|-----------|----------|
-| Aria | Business Analyst 📊 | `agent-analyst` | Research, briefs, requirements |
-| Leo | Product Manager 📋 | `agent-pm` | PRDs, prioritization |
-| Rex | System Architect 🏗️ | `agent-architect` | Architecture, epics, stories |
-| Nova | Senior Engineer 💻 | `agent-developer` | Implementation, TDD, code review |
-
----
-
-## All Skills
-
-See `module.yaml` for the complete skill registry.
+**Project type overrides:**
+- `general` → `agent-analyst`
+- `api` → `agent-analyst` → `agent-architect`
+- `modernization` → `agent-scout` → `read-legacy-code`
+- `greenfield` → `agent-pm` (Product Brief → PRD)
 
 ---
 
-## Setup
+### State C — Partial progress (some artifacts done)
 
-If you haven't set up yet:
-1. Copy `config/config.example.yml` → `_superml/config.yml` in your project root
-2. Fill in your name, project details, and any integration credentials
-3. Add `_superml/config.yml` to `.gitignore`
+**Modernization projects:**
+1. `legacy_inventory_complete: false` → `read-legacy-code`
+2. `knowledge_graph_complete: false` → `build-knowledge-graph`
+3. `architecture_complete: false` → `define-target-architecture`
+4. `epics_complete: false` → `create-migration-epics`
+5. All done → `agent-developer` or `sprint-planning`
+
+**All other projects (general / api / greenfield):**
+1. `prd_complete: false` → `agent-pm` → `create-prd`
+2. `prd_complete: true`, `architecture_complete: false` → `agent-architect`
+3. `architecture_complete: true`, `epics_complete: false` → `create-epics-stories`
+4. `epics_complete: true` → `sprint-planning` → `agent-developer`
+
+---
+
+## Step 3 — Respond
+
+Keep it short:
+1. **One sentence** — where the user is right now
+2. **The next 1–2 skills** with a one-line reason
+3. **One follow-up** — what comes after
+
+---
+
+## Quick Reference
+
+```bash
+npx @supermldev/agentic-sdlc list    # browse all skills
+npx @supermldev/agentic-sdlc help    # CLI contextual guidance
+```
+
