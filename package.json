@@ -1,6 +1,6 @@
 {
   "name": "@supermldev/smart-sdlc",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Smart SDLC — AI-Driven Development Framework built by Superml.dev & superml.org by crazyaiml. Works natively with GitHub Copilot, Claude, Cursor, and any AI coding assistant.",
   "keywords": [
     "ai",
