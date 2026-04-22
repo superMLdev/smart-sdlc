@@ -34,7 +34,11 @@ jobs:
       - name: Verify package version matches tag
         run: |
           PKG_VERSION="v$(node -p "require('./package.json').version")"
-          TAG="${GITHUB_REF_NAME:-${{ github.event.inputs.tag }}}"
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="${{ github.event.inputs.tag }}"
+          fi
           echo "Package version: $PKG_VERSION"
           echo "Tag:             $TAG"
           if [ -n "$TAG" ] && [ "$PKG_VERSION" != "$TAG" ]; then
