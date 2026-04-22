@@ -17,6 +17,14 @@
     "architecture"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superMLdev/smart-sdlc.git"
+  },
+  "homepage": "https://github.com/superMLdev/smart-sdlc#readme",
+  "bugs": {
+    "url": "https://github.com/superMLdev/smart-sdlc/issues"
+  },
   "engines": {
     "node": ">=16"
   },
