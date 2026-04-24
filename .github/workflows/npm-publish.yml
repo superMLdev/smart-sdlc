@@ -47,7 +47,13 @@ jobs:
           fi
 
       - name: Publish @supermldev/smart-sdlc
-        run: npm publish --access public
+        run: |
+          MAIN_VERSION="$(node -p "require('./package.json').version")"
+          if npm view "@supermldev/smart-sdlc@${MAIN_VERSION}" version &>/dev/null; then
+            echo "::notice::@supermldev/smart-sdlc@${MAIN_VERSION} already published — skipping."
+          else
+            npm publish --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -58,16 +64,23 @@ jobs:
           node -e "
             const fs = require('fs');
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            pkg.version = '${MAIN_VERSION}';
-            pkg.dependencies['@supermldev/smart-sdlc'] = '^${MAIN_VERSION}';
+            const v = '${MAIN_VERSION}';
+            pkg.version = v;
+            pkg.dependencies['@supermldev/smart-sdlc'] = '^' + v;
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Alias package.json updated to version ' + v);
           "
-          echo "Alias package.json updated to version ${MAIN_VERSION}"
 
       - name: Publish smart-sdlc (alias)
         run: |
+          MAIN_VERSION="$(node -p "require('./package.json').version")"
           cd packages/smart-sdlc
-          npm publish --access public
+          ALIAS_VERSION="$(node -p "require('./package.json').version")"
+          if npm view "smart-sdlc@${ALIAS_VERSION}" version &>/dev/null; then
+            echo "::notice::smart-sdlc@${ALIAS_VERSION} already published — skipping."
+          else
+            npm publish --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
