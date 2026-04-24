@@ -100,7 +100,10 @@ Every skill in the framework, with its type, persona access, activation method, 
 | **dev-story** | `/sml-dev-story` | Workflow | developer | Implement a story using TDD (Red → Green → Refactor). | Implemented code + commit |
 | **code-review** | `/sml-code-review` | Workflow | developer | Structured code review against acceptance criteria, ADRs, and coding standards. | Review report inline |
 | **create-story** | `/sml-create-story` | Workflow | developer, team_lead | Write a single detailed story with full acceptance criteria and technical notes. | Story doc or JIRA ticket |
-| **sprint-planning** | `/sml-sprint-planning` | Workflow | developer, team_lead | Plan a sprint: select stories, estimate, assign, set sprint goal. | `_superml-output/implementation/sprint-<n>.md` |
+| **sprint-planning** | `/sml-sprint-planning` | Workflow | developer, team_lead | Plan a sprint: select stories, estimate, assign, set sprint goal. | `{output_path}/implementation/sprint-<n>.md` |
+| **agent-lead** | `@sml-agent-lead` | Agent | team_lead | Team Lead / PM persona. Sprint health, delivery coordination, progress tracking. | Interactive menu |
+| **sprint-status** | `/sml-sprint-status` | Workflow | team_lead | Generate a sprint status report from current story state — progress, blockers, risks. | `{output_path}/implementation/sprint-status.md` |
+| **retrospective** | `/sml-retrospective` | Workflow | team_lead | Facilitate a structured sprint retrospective: what went well, what to improve, actions. | `{output_path}/implementation/retrospective-<n>.md` |
 
 ### dev-story — Loop Detail
 
@@ -116,7 +119,30 @@ Every skill in the framework, with its type, persona access, activation method, 
 
 ---
 
-## Phase 5 — Modernization
+## Phase 6 — Quality Assurance
+
+**Persona:** `qa` — prerequisite: `implementation_signed_off: true`
+
+| Skill | Command | Type | Persona | What It Does | Output |
+|---|---|---|---|---|---|
+| **test-plan** | `/sml-test-plan` | Workflow | qa | Create a test plan: scope, strategy, test cases mapped to acceptance criteria, risk areas. | `{output_path}/qa/test-plan.md` |
+| **test-execution** | `/sml-test-execution` | Workflow | qa | Execute the test plan and record pass/fail results with evidence and defect references. | `{output_path}/qa/test-execution.md` |
+| **bug-triage** | `/sml-bug-triage` | Workflow | qa | Log, classify (P1–P4), and track bugs. P1/P2 bugs block release sign-off. | `{output_path}/qa/bug-triage.md` |
+| **qa-signoff** | `/sml-qa-signoff` | Workflow | qa | Formal QA sign-off checklist. Records tester identity and date. Sets `qa_signed_off: true`. | `{output_path}/qa/qa-signoff.md` |
+
+---
+
+## Phase 7 — Release
+
+**Persona:** `release` — prerequisite: `qa_signed_off: true`
+
+| Skill | Command | Type | Persona | What It Does | Output |
+|---|---|---|---|---|---|
+| **release-checklist** | `/sml-release-checklist` | Workflow | release | Structured pre-release checklist: environment, config, migrations, feature flags, monitoring. | `{output_path}/release/release-checklist.md` |
+| **deploy-runbook** | `/sml-deploy-runbook` | Workflow | release | Step-by-step deployment guide with rollback procedures and post-deploy smoke tests. | `{output_path}/release/deploy-runbook.md` |
+| **release-notes** | `/sml-release-notes` | Workflow | release | Draft user-facing release notes from sprint and story artifacts. | `{output_path}/release/release-notes.md` |
+
+---
 
 | Skill | Command | Type | Persona | What It Does | Output |
 |---|---|---|---|---|---|
@@ -138,6 +164,7 @@ Every skill in the framework, with its type, persona access, activation method, 
 | **help** | `/sml-help` | Utility | Context-aware guidance. Reads `config.yml` and `persona.yml` to tell you what to do next based on current project state. |
 | **brainstorming** | `/sml-brainstorming` | Utility | Facilitated brainstorming using diverge/converge technique. Useful before product brief or architecture. |
 | **elicitation** | `/sml-elicitation` | Utility | Advanced requirements elicitation: assumption surfacing, five-whys, stakeholder mapping, jobs-to-be-done. |
+| **review-adversarial** | `/sml-review-adversarial` | Utility | Stress-test any deliverable by playing devil's advocate — surfaces blind spots, weak assumptions, and edge cases. |
 
 ### /sml-help — State Logic
 
@@ -199,8 +226,10 @@ See [Integrations](./integrations.md) for full setup and usage.
 @sml-agent-pm               # Activate Product / BA agent
 @sml-agent-architect        # Activate Architect agent
 @sml-agent-developer        # Activate Developer agent
-@sml-agent-sage             # Activate Modernization Lead agent
 @sml-agent-lead             # Activate Team Lead agent
+@sml-agent-qa               # Activate QA agent
+@sml-agent-release          # Activate Release agent
+@sml-agent-sage             # Activate Modernization Lead agent
 @sml-agent-scout            # Activate Scout agent
 
 /sml-help                   # What to do next
@@ -208,11 +237,20 @@ See [Integrations](./integrations.md) for full setup and usage.
 /sml-create-architecture    # Design architecture
 /sml-create-epics-stories   # Break into epics and stories
 /sml-sprint-planning        # Plan a sprint
+/sml-sprint-status          # Sprint status report
+/sml-retrospective          # Sprint retrospective
 /sml-dev-story              # Implement a story
 /sml-code-review            # Review code
+/sml-test-plan              # Create a test plan
+/sml-test-execution         # Execute tests
+/sml-qa-signoff             # QA sign-off
+/sml-release-checklist      # Release readiness checklist
+/sml-deploy-runbook         # Deployment runbook
+/sml-release-notes          # Release notes
 /sml-relearn-codebase       # Onboard to codebase
 /sml-read-legacy-code       # Deep-read legacy system
 /sml-build-knowledge-graph  # Extract business rules
+/sml-review-adversarial     # Stress-test any deliverable
 /sml-company-knowledge-fetch # Pull internal docs into AI context
 ```
 
@@ -222,4 +260,5 @@ See [Integrations](./integrations.md) for full setup and usage.
 Load skill at: _superml/skills/2-planning/agent-pm/SKILL.md
 Load skill at: _superml/skills/3-solutioning/create-architecture/SKILL.md
 Load skill at: _superml/skills/4-implementation/dev-story/SKILL.md
+Load skill at: _superml/skills/6-quality/test-plan/SKILL.md
 ```

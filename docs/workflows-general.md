@@ -15,9 +15,13 @@ This workflow covers new feature work on an **existing product** or building out
    ↓
 [Architect]       Design the solution, create epics & stories
    ↓
+[Team Lead]       Sprint planning & delivery tracking
+   ↓
 [Developer]       Implement story by story
    ↓
-[Team Lead]       Sprint planning & delivery tracking
+[QA]              Test and validate against acceptance criteria
+   ↓
+[Release]         Deploy and confirm operational readiness
 ```
 
 Each phase produces an **artifact** that the next phase depends on. The `/sml-help` skill reads artifact completion flags from `config.yml` to tell you which phase is next.
@@ -261,21 +265,175 @@ Structured review against:
 
 ---
 
-## Cross-Persona Collaboration Points
+---
 
-| Situation | What To Do |
-|---|---|
-| Developer needs requirements clarified | `/sml-meeting` → bring in `product` persona |
-| Developer hits architectural uncertainty | `/sml-meeting` → bring in `architect` persona |
-| Architect needs feasibility input | `/sml-meeting` → bring in `developer` persona |
-| BA needs to understand existing system | `/sml-meeting` → bring in `architect` persona |
-| Team Lead needs capacity input | `/sml-meeting` → bring in `developer` persona |
+## Phase 5 — QA & Testing
+
+**Persona:** `qa`
+**Prerequisite:** `implementation_signed_off: true` in `config.yml`
+
+### Step 1 — Activate the QA Persona
+
+```
+@sml-agent-qa
+```
+
+The QA agent loads stories and acceptance criteria, checks the implementation sign-off flag, and presents the testing menu.
+
+### Step 2 — Create the test plan
+
+```
+/sml-test-plan
+```
+
+Produces a structured test plan covering:
+- Test scope and out-of-scope items
+- Testing strategy (unit, integration, E2E, manual)
+- Test cases mapped to each acceptance criterion
+- Risk areas and edge cases
+
+**Output artifact:** `{output_path}/qa/test-plan.md`
+
+### Step 3 — Execute the test plan
+
+```
+/sml-test-execution
+```
+
+Guides systematic execution of all test cases with pass/fail recording, evidence notes, and defect logging.
+
+**Output artifact:** `{output_path}/qa/test-execution.md`
+
+### Step 4 — Bug triage (if defects found)
+
+```
+/sml-bug-triage
+```
+
+Classifies bugs by severity (P1–P4), assigns owners, and tracks resolution. P1/P2 bugs block release.
+
+**Output artifact:** `{output_path}/qa/bug-triage.md`
+
+### Step 5 — QA sign-off
+
+```
+/sml-qa-signoff
+```
+
+Formal sign-off checklist. All P1/P2 bugs must be resolved. Records sign-off date and tester identity.
+
+**Output artifact:** `{output_path}/qa/qa-signoff.md`
+
+Set `qa_signed_off: true` in `_superml/config.yml` when done.
+
+---
+
+## Phase 6 — Release
+
+**Persona:** `release`
+**Prerequisite:** `qa_signed_off: true` in `config.yml`
+
+### Step 1 — Activate the Release Persona
+
+```
+@sml-agent-release
+```
+
+The Release agent loads the QA sign-off, architecture, and implementation artifacts, then presents the release readiness menu.
+
+### Step 2 — Generate release checklist
+
+```
+/sml-release-checklist
+```
+
+Structured pre-release checklist covering:
+- Environment readiness
+- Configuration and secrets verified
+- Database migrations reviewed
+- Feature flags and toggles set
+- Monitoring and alerting confirmed
+
+**Output artifact:** `{output_path}/release/release-checklist.md`
+
+### Step 3 — Produce deployment runbook
+
+```
+/sml-deploy-runbook
+```
+
+Step-by-step deployment guide including rollback procedures, cut-over sequence, and post-deploy smoke tests.
+
+**Output artifact:** `{output_path}/release/deploy-runbook.md`
+
+### Step 4 — Draft release notes
+
+```
+/sml-release-notes
+```
+
+Generates user-facing release notes from sprint and story artifacts.
+
+**Output artifact:** `{output_path}/release/release-notes.md`
+
+Set `release_complete: true` in `_superml/config.yml` after successful deployment.
+
+---
+
+## Backward Re-Entry
+
+Discovery happens at any point. Smart-SDLC supports going back through a prior phase without breaking discipline.
+
+**The correct approach:**
+
+```bash
+npx @supermldev/smart-sdlc persona exit    # Exit current persona and log the event
+npx @supermldev/smart-sdlc reenter         # Pick the phase to re-enter
+npx @supermldev/smart-sdlc persona         # Install the persona for that phase
+```
+
+`sml reenter` shows the full phase list, marks your current phase, and warns you if you are moving backward. It logs the re-entry event to `_superml/audit.log`.
+
+**Common re-entry scenarios:**
+
+| Situation | Re-enter phase | Action |
+|---|---|---|
+| Developer finds missing requirements | Product / BA | Update PRD, set `prd_complete: true` again |
+| QA finds design gap | Architect | Update architecture doc, revise affected stories |
+| Release finds missing test coverage | QA | Re-execute test plan, update sign-off |
+| Developer finds ambiguous AC during implementation | Product / BA | Clarify and update stories |
+
+**What not to do:** casually act as another persona mid-session. That blurs artifact ownership and breaks the audit trail.
+
+---
+
+## Cross-Persona Collaboration — Party Mode
+
+For situations requiring multiple perspectives in a single session, use Party Mode:
 
 ```bash
 npx @supermldev/smart-sdlc meeting
 ```
 
-This generates a context prompt that activates all selected personas in one AI session.
+This generates a structured context prompt that activates selected personas together. Each Party Mode session has defined participants, purpose, and expected outputs.
+
+**Common Party Mode meetings:**
+
+| Meeting | Participants | Output |
+|---|---|---|
+| Requirements review | Product, Architect | Requirement clarifications, assumption review |
+| Architecture review | Architect, Developer, QA | Design decisions, risk log |
+| Sprint planning | Team Lead, Developer, QA | Sprint backlog, story readiness |
+| Release readiness | Developer, QA, Release | Deployment readiness, validation status, rollback plan |
+
+| Situation | What To Do |
+|---|---|
+| Developer needs requirements clarified | `meeting` → bring in `product` persona |
+| Developer hits architectural uncertainty | `meeting` → bring in `architect` persona |
+| Architect needs feasibility input | `meeting` → bring in `developer` persona |
+| BA needs to understand existing system | `meeting` → bring in `architect` persona |
+| Team Lead needs capacity input | `meeting` → bring in `developer` persona |
+| QA needs to clarify AC | `meeting` → bring in `product` persona |
 
 ---
 
@@ -287,7 +445,9 @@ product-brief.md
         → architecture-<feature>.md    (architecture_complete: true)
             → epics-stories.md         (epics_complete: true)
                 → sprint-<n>.md
-                    → implementation   (story by story)
+                    → implementation   (implementation_signed_off: true)
+                        → qa/          (qa_signed_off: true)
+                            → release/ (release_complete: true)
 ```
 
 Each artifact in the chain is loaded by the next phase's agent automatically if it exists at the configured path in `_superml/config.yml`.

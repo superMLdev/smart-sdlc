@@ -1,7 +1,7 @@
 code: superml
 name: "SuperML AI — Agile AI-Driven Development"
 description: "Standalone AI-driven agile development framework with external system integrations. Works inside GitHub Copilot, Claude, or any AI assistant."
-version: "1.0.0"
+version: "1.6.0"
 
 skills:
 
@@ -336,3 +336,59 @@ skills:
     type: workflow
     phase: modernize
     description: "Convert modernization architecture and migration strategy into implementable epics and stories. Every story is traceable to validated business rules and the legacy programs it replaces. Compatible with JIRA/Azure DevOps integrations and Nova (phase 4) implementation."
+
+  # ─── Phase 6: Quality Assurance ────────────────────────────────────────────────────
+  - name: agent-qa
+    path: _superml/skills/6-quality/agent-qa
+    type: agent
+    phase: quality
+    description: "Quinn — QA / Test Lead. Quality assurance, test planning, test execution, bug triage, and release sign-off. Gates the release phase. Prerequisite: implementation_signed_off."
+
+  - name: test-plan
+    path: _superml/skills/6-quality/test-plan
+    type: workflow
+    phase: quality
+    description: "Create a structured test plan mapping every acceptance criterion to at least one test case. Defines test scope, strategy, environments, risk register, and entry/exit criteria."
+
+  - name: test-execution
+    path: _superml/skills/6-quality/test-execution
+    type: workflow
+    phase: quality
+    description: "Execute the test plan, record pass/fail for every test case, capture evidence, raise defects, and produce a test execution report."
+
+  - name: bug-triage
+    path: _superml/skills/6-quality/bug-triage
+    type: workflow
+    phase: quality
+    description: "Log, classify by severity (P1–P4), assign, and track all defects found during testing. Produces a structured bug triage log."
+
+  - name: qa-signoff
+    path: _superml/skills/6-quality/qa-signoff
+    type: workflow
+    phase: quality
+    description: "Formal QA sign-off gate review. Confirms test coverage, zero open P1/P2 bugs, and all checklist items verified. Sets artifacts.qa_signed_off in config. Required before release."
+
+  # ─── Phase 7: Release / DevOps ──────────────────────────────────────────────────────
+  - name: agent-release
+    path: _superml/skills/7-release/agent-release
+    type: agent
+    phase: release
+    description: "Riley — Release Manager / DevOps. Deployment coordination, release governance, and operational readiness. Prerequisite: qa_signed_off. Produces release-checklist, deploy-runbook, and release-notes."
+
+  - name: release-checklist
+    path: _superml/skills/7-release/release-checklist
+    type: workflow
+    phase: release
+    description: "Generate and verify a pre-release readiness checklist. Go/No-Go gate covering code quality, configuration, infrastructure, documentation, and communication. All items must be checked before deployment."
+
+  - name: deploy-runbook
+    path: _superml/skills/7-release/deploy-runbook
+    type: workflow
+    phase: release
+    description: "Create a step-by-step deployment runbook with rollback plan. Includes pre-deploy checks, deployment phases, smoke tests, post-deploy monitoring, and a rollback procedure."
+
+  - name: release-notes
+    path: _superml/skills/7-release/release-notes
+    type: workflow
+    phase: release
+    description: "Generate user-facing and internal release notes. Covers new features, improvements, bug fixes, breaking changes (with migration steps), known issues, and sets artifacts.release_complete."

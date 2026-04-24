@@ -154,7 +154,7 @@ The Modernization Lead handles legacy system analysis and migration planning. It
 | **Default name** | Lead |
 | **Copilot agent** | `@sml-agent-lead` |
 | **Slash command** | `/sml-agent-lead` |
-| **Skill file** | `_superml/skills/4-implementation/sprint-planning/SKILL.md` |
+| **Skill file** | `_superml/skills/4-implementation/agent-lead/SKILL.md` |
 | **Persona key** | `team_lead` |
 
 The Team Lead / PM persona focuses on delivery coordination — breaking architecture into epics, planning sprints, managing capacity, and tracking progress.
@@ -163,13 +163,132 @@ The Team Lead / PM persona focuses on delivery coordination — breaking archite
 
 | Skill | What It Does | Access |
 |---|---|---|
+| `agent-lead` | Team Lead persona agent — delivery coordination, sprint health, team status | team_lead |
 | `create-epics-stories` | Break PRD + architecture into epics and stories | architect, team_lead |
 | `sprint-planning` | Sprint setup, capacity, story selection | developer, team_lead |
+| `sprint-status` | Generate a sprint status report from current story state | team_lead |
+| `retrospective` | Facilitate a structured sprint retrospective | team_lead |
 | `create-story` | Write an individual story with full acceptance criteria | developer, team_lead |
 
 **Cross-persona collaboration:**
 - Call `@sml-agent-pm` for requirements and product direction
 - Call `@sml-agent-architect` for technical planning and feasibility
+
+---
+
+### QA / Test Engineer
+
+| | |
+|---|---|
+| **Default name** | *(configured at setup)* |
+| **Copilot agent** | `@sml-agent-qa` |
+| **Slash command** | `/sml-agent-qa` |
+| **Skill file** | `_superml/skills/6-quality/agent-qa/SKILL.md` |
+| **Persona key** | `qa` |
+
+The QA persona validates that built outputs satisfy requirements, acceptance criteria, and quality standards. It operates after implementation and before release.
+
+**Primary skills:**
+
+| Skill | What It Does | Access |
+|---|---|---|
+| `test-plan` | Create a test plan covering scope, strategy, and test cases | qa |
+| `test-execution` | Execute the test plan and record pass/fail results | qa |
+| `bug-triage` | Log, prioritise, and track bugs found during testing | qa |
+| `qa-signoff` | Formal QA sign-off and release readiness assessment | qa |
+| `review-adversarial` | Stress-test a deliverable by playing devil's advocate | all |
+
+**Can read:** stories, acceptance criteria, implementation outputs, architecture constraints
+
+**Cannot:** invent requirements, silently fill requirement gaps, approve ambiguous stories without flagging them
+
+**Output artifacts:** `{output_path}/qa/test-plan.md`, `test-execution.md`, `bug-triage.md`, `qa-signoff.md`
+
+**Prerequisite:** `implementation_signed_off: true` in `config.yml`
+
+**Cross-persona collaboration:**
+- Call `@sml-agent-developer` to resolve bugs found during testing
+- Call `@sml-agent-pm` to clarify ambiguous acceptance criteria
+
+---
+
+### Release / Ops
+
+| | |
+|---|---|
+| **Default name** | *(configured at setup)* |
+| **Copilot agent** | `@sml-agent-release` |
+| **Slash command** | `/sml-agent-release` |
+| **Skill file** | `_superml/skills/7-release/agent-release/SKILL.md` |
+| **Persona key** | `release` |
+
+The Release persona ensures the solution is deployable, observable, and operationally ready. It owns the deployment plan, runbook, and release sign-off. It operates after QA sign-off.
+
+**Primary skills:**
+
+| Skill | What It Does | Access |
+|---|---|---|
+| `release-checklist` | Generate a structured release readiness checklist | release |
+| `deploy-runbook` | Produce a step-by-step deployment runbook | release |
+| `release-notes` | Draft release notes from sprint/story artifacts | release |
+
+**Can read:** architecture, implementation outputs, test summaries, environment requirements
+
+**Cannot:** define business features, fill missing test coverage by assumption, approve unsafe release posture without flagging it
+
+**Output artifacts:** `{output_path}/release/release-checklist.md`, `deploy-runbook.md`, `release-notes.md`
+
+**Prerequisite:** `qa_signed_off: true` in `config.yml`
+
+**Cross-persona collaboration:**
+- Call `@sml-agent-qa` to confirm validation status before deployment
+- Call `@sml-agent-architect` for deployment topology questions
+
+---
+
+## Persona Lifecycle
+
+Personas are installed, not casually switched. Each activation is intentional and traceable.
+
+### Installing a Persona
+
+```bash
+npx @supermldev/smart-sdlc persona
+```
+
+Runs the setup wizard — captures your name, role, AI tool preference, and skill level. Writes `_superml/persona.yml`. Every activation is logged to `_superml/audit.log`.
+
+### Checking Your Installed Persona
+
+```bash
+npx @supermldev/smart-sdlc persona status
+```
+
+Displays your currently installed persona (name, role, tools, level) without running the wizard.
+
+### Exiting a Persona
+
+```bash
+npx @supermldev/smart-sdlc persona exit
+```
+
+Shows the current persona, confirms, then removes `_superml/persona.yml`. The exit event is logged to `_superml/audit.log`. Run this before switching roles.
+
+### Re-installing a Persona
+
+Run `npx @supermldev/smart-sdlc persona` again. If a persona is already installed you are asked: **"Re-install persona with new answers?"** Switching to a different role shows a confirmation prompt before overwriting.
+
+### Audit Trail
+
+Every install, exit, `sml init`, and `sml reenter` is appended to `_superml/audit.log`:
+
+```
+2026-04-23T09:00:00.000Z | persona-install | persona:product | phase:planning | user:Aria | project:my-app
+2026-04-23T14:30:00.000Z | persona-exit    | persona:product | phase:planning | user:Aria | project:my-app
+2026-04-23T14:31:00.000Z | persona-install | persona:architect | phase:solutioning | user:Rex | project:my-app
+```
+
+The file is git-ignored and never leaves your machine.
 
 ---
 
@@ -197,13 +316,19 @@ Each generated skill file (`.github/skills/<name>/SKILL.md`) contains a **Person
 |---|---|
 | `agent-scout`, `relearn-codebase`, `generate-readme`, `generate-api-docs` | All |
 | `reverse-adr`, `brainstorming`, `elicitation`, `document-project`, `help` | All |
-| `agent-analyst`, `product-brief`, `create-prd`, `edit-prd`, `validate-prd` | product |
-| `agent-architect`, `create-architecture`, `generate-context` | architect |
+| `review-adversarial` | All |
+| `agent-analyst`, `product-brief`, `create-prd`, `edit-prd` | product |
+| `validate-prd` | product, architect |
+| `agent-architect`, `create-architecture` | architect |
+| `generate-context` | architect, team_lead |
 | `agent-developer`, `dev-story`, `code-review` | developer |
 | `agent-sage`, `read-legacy-code`, `build-knowledge-graph` | modernization |
 | `define-target-architecture`, `validate-business-rules`, `create-migration-epics` | modernization |
 | `create-epics-stories` | architect, team_lead |
+| `agent-lead`, `sprint-status`, `retrospective` | team_lead |
 | `sprint-planning`, `create-story` | developer, team_lead |
+| `test-plan`, `test-execution`, `bug-triage`, `qa-signoff` | qa |
+| `release-checklist`, `deploy-runbook`, `release-notes` | release |
 
 ### Escape Hatch — Meetings
 
@@ -220,6 +345,8 @@ When you need a skill outside your role, use `/sml-meeting` to bring the correct
 | Software Developer, Engineer, Full-stack Dev | `developer` |
 | Modernization Consultant, Legacy Migration Lead | `modernization` |
 | Engineering Manager, Scrum Master, Delivery Manager | `team_lead` |
+| QA Engineer, Test Engineer, SDET | `qa` |
+| DevOps Engineer, SRE, Release Manager | `release` |
 
 You can change your persona at any time:
 

@@ -14,16 +14,15 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 
 | Capability | What It Does |
 |---|---|
-| **Persona-based agents** | 5 AI personas (Product, Architect, Developer, Modernization Lead, Team Lead) — each with a distinct role, communication style, and skill set. Appear natively in the GitHub Copilot agent picker as `.agent.md` files. |
+| **Persona-based agents** | 8 AI personas (Scout, Product/BA, Architect, Developer, Team Lead, QA, Release, Modernization Lead) — each with a distinct role, communication style, and skill set. Appear natively in the GitHub Copilot agent picker as `.agent.md` files. |
 | **Two-phase project setup** | `init` sets up the project for the whole team; `persona` lets each member configure their own workspace and role independently |
 | **Custom role names** | Team can name each persona (e.g. "Aria", "Rex", "Nova") — names flow through meeting docs and agent greetings |
 | **Company reference docs** | Drop company-specific guidelines, standards, and context into `_superml/reference/` — agents load them automatically on activation |
 | **Multi-persona meetings** | `npx @supermldev/smart-sdlc meeting` generates a structured context prompt bringing all personas into one AI session |
 | **Artifact readiness guards** | Agents check prerequisites before starting work — warns if PRD, architecture, or epics are missing for the selected role |
-| **Full SDLC coverage** | Skills for analysis, requirements (PRD), architecture, ADRs, epics & stories, implementation, sprint planning, and modernization |
+| **Full SDLC coverage** | Skills for analysis, requirements (PRD), architecture, ADRs, epics & stories, implementation, sprint planning, QA testing, release, and modernization |
 | **Integration skills** | Native JIRA, Confluence, GitHub, GitLab, and Azure DevOps workflows — via REST API or MCP Server |
 | **Company Knowledge** | Register internal framework docs, platform libraries, and developer portals — fetch via URL (bearer/basic/header auth) or company MCP server — pulled into AI context on demand |
-| **Company Knowledge** | Register internal framework docs, platform libraries, and developer portals — fetch via URL (with bearer/basic/header auth) or a company MCP server — pulled into AI context on demand |
 | **Conflict prevention** | JIRA ticket lock, git branch lock, and Confluence version traceability prevent parallel work conflicts |
 | **Copilot slash commands** | Skills are generated as `.github/skills/<name>/SKILL.md` — each appears as a `/skill-name` slash command in GitHub Copilot Chat |
 | **Zero dependencies** | Pure Node.js CLI — no external packages required |
@@ -34,7 +33,8 @@ Each **skill** is a markdown file (`SKILL.md`) containing structured instruction
 2. Each **team member** runs `npx @supermldev/smart-sdlc persona` to configure their own name, role, AI tool, and skill level
 3. Point your AI assistant at a skill: _"Load skill: sml-agent-pm"_ or attach in Copilot: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
 4. The AI reads the skill, loads config and persona settings, loads company reference docs, and activates the persona
-5. For integration skills (JIRA, Confluence, GitHub), the AI uses REST API calls or MCP server tool calls, depending on your configured connection mode
+5. Follow the flow: Product → Architect → Team Lead → Developer → QA → Release. Use `persona exit` and `reenter` to move backward when discovery happens mid-flow.
+6. For integration skills (JIRA, Confluence, GitHub), the AI uses REST API calls or MCP server tool calls, depending on your configured connection mode
 
 ## Quick Start
 
@@ -131,29 +131,32 @@ _superml/
 
 ## Personas
 
-| Persona | Default Name | Role | Starter Skill |
-|---------|-------------|------|---------------|
 | Persona | Default Name | Copilot Agent | Role | Starter Skill |
 |---------|-------------|---------------|------|---------------|
+| Code Archaeologist | Scout | `@sml-agent-scout` | Codebase onboarding, reverse-engineer docs | `_superml/skills/0-relearn/agent-scout/SKILL.md` |
 | Product / BA | Aria | `@sml-agent-pm` | Requirements, PRDs, user stories | `_superml/skills/2-planning/agent-pm/SKILL.md` |
 | Architect | Rex | `@sml-agent-architect` | System design, ADRs, architecture | `_superml/skills/3-solutioning/agent-architect/SKILL.md` |
-| Developer | Nova | `@sml-agent-developer` | Implementation, code review, tech debt | `_superml/skills/4-implementation/agent-developer/SKILL.md` |
+| Team Lead / PM | Lead | `@sml-agent-lead` | Sprint planning, delivery tracking, retrospectives | `_superml/skills/4-implementation/agent-lead/SKILL.md` |
+| Developer | Nova | `@sml-agent-developer` | Implementation, code review, TDD | `_superml/skills/4-implementation/agent-developer/SKILL.md` |
+| QA / Test Engineer | Quinn | `@sml-agent-qa` | Test planning, execution, sign-off | `_superml/skills/6-quality/agent-qa/SKILL.md` |
+| Release / Ops | Relay | `@sml-agent-release` | Release checklists, runbooks, release notes | `_superml/skills/7-release/agent-release/SKILL.md` |
 | Modernization Lead | Sage | `@sml-agent-sage` | Legacy analysis, migration planning | `_superml/skills/5-modernize/agent-sage/SKILL.md` |
-| Team Lead / PM | Lead | `@sml-agent-lead` | Epics, sprint planning, delivery | `_superml/skills/4-implementation/sprint-planning/SKILL.md` |
-| Code Archaeologist | Scout | `@sml-agent-scout` | Codebase onboarding, reverse-engineer docs | `_superml/skills/0-relearn/agent-scout/SKILL.md` |
 
 Default names are overridden at project setup — your team picks the names.
 
 ## CLI Commands
 
 ```bash
-npx @supermldev/smart-sdlc init       # Set up Smart SDLC project for your team
-npx @supermldev/smart-sdlc persona    # Configure your personal workspace and role
-npx @supermldev/smart-sdlc help       # What to do next — context-aware SDLC guidance
-npx @supermldev/smart-sdlc list       # List all available skills and agents
-npx @supermldev/smart-sdlc meeting    # Set up a multi-persona meeting context
-npx @supermldev/smart-sdlc update     # Update skills to the latest installed version
-npx @supermldev/smart-sdlc clean      # Remove generated Smart SDLC files
+npx @supermldev/smart-sdlc init             # Set up Smart SDLC project for your team
+npx @supermldev/smart-sdlc persona          # Install or update your personal persona
+npx @supermldev/smart-sdlc persona status   # Show your current persona without wizard
+npx @supermldev/smart-sdlc persona exit     # Confirm and remove your persona
+npx @supermldev/smart-sdlc reenter          # Re-enter a prior phase with backward-entry guard
+npx @supermldev/smart-sdlc help             # What to do next — context-aware SDLC guidance
+npx @supermldev/smart-sdlc list             # List all available skills and agents
+npx @supermldev/smart-sdlc meeting          # Set up a multi-persona meeting context
+npx @supermldev/smart-sdlc update           # Update skills to the latest installed version
+npx @supermldev/smart-sdlc clean            # Remove generated Smart SDLC files
 ```
 
 ## Configuration

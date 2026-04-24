@@ -5,12 +5,13 @@ const [, , command, ...args] = process.argv;
 
 const commands = {
   init:    () => require('../lib/commands/init').run(),
-  persona: () => require('../lib/commands/persona').run(),
+  persona: () => require('../lib/commands/persona').run(args),
   update:  () => require('../lib/commands/update').run(),
   list:    () => require('../lib/commands/list').run(),
   meeting: () => require('../lib/commands/meeting').run(),
   clean:   () => require('../lib/commands/clean').run(),
   help:    () => require('../lib/commands/help').run(),
+  reenter: () => require('../lib/commands/reenter').run(),
 };
 
 if (!command || command === '--help' || command === '-h') {
@@ -43,7 +44,8 @@ function printHelp() {
   log.line('');
   log.line('Commands:');
   log.item('init     — Set up Smart SDLC project for your team');
-  log.item('persona  — Configure your personal workspace and role');
+  log.item('persona  — Install or exit your personal persona and role');
+  log.item('reenter  — Re-enter any prior SDLC phase');
   log.item('help     — What to do next — context-aware SDLC guidance');
   log.item('list     — List all available skills and agents');
   log.item('meeting  — Set up a multi-persona meeting context');
