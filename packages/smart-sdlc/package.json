@@ -1,0 +1,36 @@
+{
+  "name": "smart-sdlc",
+  "version": "1.6.0",
+  "description": "Smart SDLC — AI-Driven Development Framework. Short alias for @supermldev/smart-sdlc.",
+  "keywords": [
+    "ai",
+    "agile",
+    "sdlc",
+    "copilot",
+    "claude",
+    "cursor",
+    "developer-experience",
+    "framework",
+    "modernization",
+    "requirements",
+    "architecture"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superMLdev/smart-sdlc.git"
+  },
+  "homepage": "https://github.com/superMLdev/smart-sdlc#readme",
+  "bugs": {
+    "url": "https://github.com/superMLdev/smart-sdlc/issues"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "bin": {
+    "smart-sdlc": "./bin/smart-sdlc.js"
+  },
+  "dependencies": {
+    "@supermldev/smart-sdlc": "^1.6.0"
+  }
+}

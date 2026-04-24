@@ -14,7 +14,7 @@ on:
 
 jobs:
   publish:
-    name: Publish npm package
+    name: Publish npm packages
     runs-on: ubuntu-latest
     permissions:
       contents: write   # needed to create GitHub Releases
@@ -46,8 +46,28 @@ jobs:
             exit 1
           fi
 
-      - name: Publish to npm
+      - name: Publish @supermldev/smart-sdlc
         run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Sync alias package version
+        run: |
+          MAIN_VERSION="$(node -p "require('./package.json').version")"
+          cd packages/smart-sdlc
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.version = '${MAIN_VERSION}';
+            pkg.dependencies['@supermldev/smart-sdlc'] = '^${MAIN_VERSION}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+          echo "Alias package.json updated to version ${MAIN_VERSION}"
+
+      - name: Publish smart-sdlc (alias)
+        run: |
+          cd packages/smart-sdlc
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
