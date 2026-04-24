@@ -71,6 +71,12 @@ jobs:
             console.log('Alias package.json updated to version ' + v);
           "
 
+      - name: Setup Node.js for alias publish (no scope)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
       - name: Publish smart-sdlc (alias)
         run: |
           MAIN_VERSION="$(node -p "require('./package.json').version")"
