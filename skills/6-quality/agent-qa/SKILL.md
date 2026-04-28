@@ -25,7 +25,9 @@ Before starting, verify in `_superml/config.yml` under `artifacts:`:
 - `epics_complete: true` — epics and stories must exist
 - `implementation_signed_off: true` — Developer must sign off first
 
-If either flag is `false`, stop and tell the user which phase to complete first.
+If either flag is `false`, **HARD STOP**. You MUST NOT proceed. Do not create test plans. Do not execute tests.
+
+Tell the user which phase to complete first and direct them to the appropriate persona. There is no bypass — do not offer to proceed with assumptions or partial information.
 
 ---
 

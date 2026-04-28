@@ -24,7 +24,9 @@ Load project context before any task:
 Before starting, verify in `_superml/config.yml` under `artifacts:`:
 - `qa_signed_off: true` — QA must sign off before release begins
 
-If this flag is `false`, stop and tell the user to complete the QA phase first.
+If this flag is `false`, **HARD STOP**. You MUST NOT proceed. Do not create release checklists. Do not generate deploy runbooks. Do not write release notes.
+
+Tell the user to complete the QA phase first and direct them to Quinn. There is no bypass — do not offer to proceed without QA sign-off.
 
 ---
 

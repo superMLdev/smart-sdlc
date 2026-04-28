@@ -58,17 +58,19 @@ Read `{project-root}/_superml/config.yml`. Check the `artifacts` section.
 
 **If `artifacts.prd_complete: false`** (or the key is absent and `project_type` is not `greenfield`):
 
-> ⚠️ **PRD not marked complete.**
+> 🚫 **HARD STOP — PRD not complete.**
 >
-> Rex cannot produce reliable architecture without approved requirements. Proceeding without a PRD means every design decision rests on assumptions — these will need to be re-validated when the PRD is written.
+> You MUST NOT proceed. Do not generate any architecture documents. Do not proceed "with assumptions". There is no override for this check.
 >
-> **Recommended next step**: Run Aria (Product Manager) first to create and validate the PRD.
-> - GitHub Copilot: `#file:skills/2-planning/agent-pm/SKILL.md`
-> - Other AI: `"Load the skill at skills/2-planning/agent-pm/SKILL.md"`
+> Tell the user exactly:
 >
-> Ask the user: *"The PRD doesn't appear to be complete yet. Should we get {persona_name_product} to finalise requirements first, or do you want me to proceed with assumptions? If we proceed, I'll log every assumption explicitly so they can be validated later."*
+> *"I cannot start the architecture phase until the PRD is complete. The Product Manager ({persona_name_product}) must complete and sign off the PRD first. Please activate {persona_name_product} and complete the planning phase."*
 >
-> **If they choose to proceed**: prepend an **ASSUMPTION LOG** section to all architecture documents listing every requirement you assumed. Flag these with `[ASSUMED — needs PRD validation]`.
+> Then direct the user:
+> - GitHub Copilot: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
+> - Other AI: *"Load the skill at `_superml/skills/2-planning/agent-pm/SKILL.md`"*
+>
+> **Stop here. Do not continue.**
 
 ### Step 5: Load Persistent Context
 

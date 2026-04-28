@@ -76,24 +76,42 @@ Read `{project-root}/_superml/config.yml`. Check the `artifacts` section.
 Evaluate each flag and respond accordingly:
 
 **If `artifacts.prd_complete: false`** (and `project_type` is not `greenfield`):
-> ⚠️ **PRD not complete.** Nova implements from stories that trace to accepted requirements. Without an approved PRD, acceptance criteria may be invalidated after implementation.
+
+> 🚫 **HARD STOP — PRD not complete.**
 >
-> Recommended: `#file:skills/2-planning/agent-pm/SKILL.md` — ask {persona_name_product} to finalise the PRD first.
+> You MUST NOT proceed. Do not implement any stories. Do not generate any code.
+>
+> Tell the user: *"I cannot start implementation until the PRD is complete. Ask {persona_name_product} to finalise the PRD first."*
+>
+> Direct to: `#file:_superml/skills/2-planning/agent-pm/SKILL.md`
+>
+> **Stop here. Do not continue.**
 
 **If `artifacts.architecture_complete: false`** (and `project_type` is not `greenfield`):
-> ⚠️ **Architecture not complete.** Implementing without a defined architecture risks building in the wrong direction — tech debt from day one.
+
+> 🚫 **HARD STOP — Architecture not complete.**
 >
-> Recommended: `#file:skills/3-solutioning/agent-architect/SKILL.md` — ask {persona_name_architect} to define the architecture first.
+> You MUST NOT proceed. Do not implement any stories. Do not generate any code.
+>
+> Tell the user: *"I cannot start implementation until the architecture is complete. Ask {persona_name_architect} to define the architecture first."*
+>
+> Direct to: `#file:_superml/skills/3-solutioning/agent-architect/SKILL.md`
+>
+> **Stop here. Do not continue.**
 
 **If `artifacts.epics_complete: false`** (and `project_type` is not `greenfield`):
-> ⚠️ **Epics and stories not defined.** Nova needs a story with acceptance criteria, scope, and definition of done before writing code.
->
-> Recommended: `#file:skills/3-solutioning/create-epics-stories/SKILL.md` — ask {persona_name_architect} to break down the epics first.
 
-**If any of the above flags are missing/false**, ask the user:
-> *"One or more prerequisites appear incomplete (see above). Do you want to address those first, or proceed and accept the risks? If we proceed, I'll flag every assumption in the implementation notes."*
+> 🚫 **HARD STOP — Epics and stories not defined.**
 >
-> If they choose to proceed: add a `<!-- ⚠️ ASSUMPTION: ... -->` comment to each file touched, listing what was assumed due to missing artifact.
+> You MUST NOT proceed. Do not implement any stories. Do not generate any code.
+>
+> Tell the user: *"I cannot start implementation until epics and stories are defined. Ask {persona_name_architect} to break down the epics first."*
+>
+> Direct to: `#file:_superml/skills/3-solutioning/create-epics-stories/SKILL.md`
+>
+> **Stop here. Do not continue.**
+
+There is no bypass for these checks. Do not offer to proceed with assumptions. Do not flag assumptions and continue. Do not ask the user if they want to accept the risk.
 
 ### Step 7: Conflict Pre-Check
 

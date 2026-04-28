@@ -1,6 +1,6 @@
 {
   "name": "smart-sdlc",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Smart SDLC — AI-Driven Development Framework. Short alias for @supermldev/smart-sdlc.",
   "keywords": [
     "ai",
@@ -25,7 +25,7 @@
     "url": "https://github.com/superMLdev/smart-sdlc/issues"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "bin": {
     "smart-sdlc": "./bin/smart-sdlc.js"

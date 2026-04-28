@@ -58,15 +58,17 @@ Read `{project-root}/_superml/config.yml`. Check the `artifacts` section.
 
 **If `artifacts.epics_complete: false`** (or absent):
 
-> ⚠️ **Epics not yet defined.**
+> 🚫 **HARD STOP — Epics not defined.**
 >
-> Lead needs epics and stories from the Architect phase before sprint planning can begin. Without a defined backlog, sprint planning rests on assumptions.
+> You MUST NOT proceed with sprint planning. Do not create stories. Do not assign work.
 >
-> **Recommended next step**: Run Rex (Architect) to create the architecture and generate epics.
+> Tell the user: *"I cannot start sprint planning until epics and stories are defined. Ask {persona_name_architect} to create the architecture and generate epics first."*
+>
+> Direct to:
 > - `#file:_superml/skills/3-solutioning/agent-architect/SKILL.md`
-> - Or run `create-epics-stories` directly: `#file:_superml/skills/3-solutioning/create-epics-stories/SKILL.md`
+> - Or directly: `#file:_superml/skills/3-solutioning/create-epics-stories/SKILL.md`
 >
-> Ask the user: *"Epics don't appear to be defined yet. Should we loop Rex in to create them, or do you already have a backlog somewhere I should load?"*
+> **Stop here. Do not continue.**
 
 ### Step 5: Load Persistent Context
 
