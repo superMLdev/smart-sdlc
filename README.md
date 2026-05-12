@@ -2,6 +2,11 @@
 
 > Built by [Superml.dev](https://superml.dev) & [superml.org](https://superml.org) by crazyaiml
 
+## Featured On
+<a href="https://superml.dev/tools/smart-sdlc" target="_blank" rel="noopener noreferrer">
+  <img src="https://superml.dev/api/badge/smart-sdlc.svg" alt="Smart-SDLC listed on SuperML" width="210" height="44" />
+</a>
+
 A standalone AI-driven agile development framework that works natively inside GitHub Copilot, Claude, or any AI coding assistant. No external runtime — your AI assistant IS the engine.
 
 ## What It Is
